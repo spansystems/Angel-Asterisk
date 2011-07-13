@@ -1,0 +1,7 @@
+#!/bin/bash
+while read VAR && [-n ${VAR}];
+do
+echo "${VAR}"
+done
+channel=$1
+echo "exec Chanspy SIP,w"
