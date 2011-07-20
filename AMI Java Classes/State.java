@@ -1,0 +1,8 @@
+
+public enum State {
+	EARLY,
+	RINGING,
+	ESTABLISHED,
+	HANGUP,
+	DIALLING
+	}
