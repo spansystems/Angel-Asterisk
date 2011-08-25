@@ -102,13 +102,13 @@ public final class ManagerServer implements AsteriskServerListener, ManagerEvent
     private void readInput() {
         String whoAreYou = null;
         while (!"bye".equals(whoAreYou)) {
-            whoAreYou = JOptionPane.showInputDialog("Who are you??");
+            whoAreYou = JOptionPane.showInputDialog("Who are you??(Type exit to Exit)");
             String gotIt = findWhoAreYou(whoAreYou);
             if (gotIt.contains("agent")) {
                 processAgent(gotIt);
             } else if (gotIt.contains("admin")) {
                 processAdmin(gotIt);
-            } else if (gotIt.contains("exit")) {
+            } else if (whoAreYou.contains("exit")) {
                 break;
             } else {
                 JOptionPane.showMessageDialog(null, "UnKnown");
