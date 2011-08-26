@@ -71,7 +71,7 @@ public final class ManagerServer implements AsteriskServerListener, ManagerEvent
      */
 
     ManagerServer() {
-        asteriskServer = new DefaultAsteriskServer("10.11.201.71", "admin", "span");
+        asteriskServer = new DefaultAsteriskServer("IP_TO_BE_ENTERED", "admin", "span");
         managerConnection = asteriskServer.getManagerConnection();
         admin = new Admin();
         admin.setName(suName);
