@@ -36,7 +36,7 @@ public final class ManagerServer implements AsteriskServerListener, ManagerEvent
     private static final String agentName = "200";
     private static final String suName = "300";
     private final String agentPwd = "span";
-    private final String adminPwd = "span@1234";
+    private final String adminPwd = "span";
     Agent agent;
     Admin admin;
     boolean quit = false;
