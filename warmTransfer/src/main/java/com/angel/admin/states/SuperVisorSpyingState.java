@@ -24,7 +24,7 @@ public class SuperVisorSpyingState extends UserState {
     @Override
     public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException,
             IllegalStateException, IOException, TimeoutException {
-        logger.info("Event recieved in SuperVisorSpying State " + event);
+        LOG.info("Event recieved in SuperVisorSpying State " + event);
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
         if (channel.getState() == ChannelState.HUNGUP) {
             admin.setChannel(null);

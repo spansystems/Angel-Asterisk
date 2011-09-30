@@ -7,7 +7,11 @@ package com.angel.rest;
 import java.io.Serializable;
 
 public class OutputJson implements Serializable {
-    private String agent;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String agent;
 
     public String getAgent() {
         return agent;

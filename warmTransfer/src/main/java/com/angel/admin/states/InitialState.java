@@ -14,20 +14,20 @@ public class InitialState extends UserState {
     public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException,
             IllegalStateException, IOException, TimeoutException {
         // TODO Auto-generated method stub
-        logger.info("Received onPropertyChange event for admin " + getClass().toString());
+        LOG.info("Received onPropertyChange event for admin " + getClass().toString());
         if (event.getSource().getClass().toString().contains("AsteriskChannel")) {
             AsteriskChannel channel = (AsteriskChannel) event.getSource();
             admin.setChannel(channel);
             if (channel.getState() == ChannelState.RINGING) {
-                logger.info("Adminchannel is ringing channel");
+                LOG.info("Adminchannel is ringing channel");
             } else if (channel.getState() == ChannelState.UP) {
                 ((com.angel.agent.states.ParkedCallState) admin.getAgent().getState()).processAdminChannel(channel, admin.getAgent());
                 admin.setState(new EstablishedState());
             } else {
-                logger.warn("unknown channel");
+                LOG.warn("unknown channel");
             }
         } else {
-            logger.warn("Unknown property change event");
+            LOG.warn("Unknown property change event");
         }
     }
 }

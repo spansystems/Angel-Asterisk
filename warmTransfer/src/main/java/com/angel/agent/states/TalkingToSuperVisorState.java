@@ -31,7 +31,7 @@ public class TalkingToSuperVisorState extends UserState {
             IllegalStateException, IOException, TimeoutException {
 
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
-        logger.info("Asterisk channel in Talking to su state " + channel);
+        LOG.info("Asterisk channel in Talking to su state " + channel);
         if (channel.getCallerId().toString().contains(agent.getName()) && channel.getState() == ChannelState.HUNGUP) {
             processAgentChannel(agent, channel);
         }
@@ -45,7 +45,7 @@ public class TalkingToSuperVisorState extends UserState {
     @Override
     public void redirectToConference(Agent agent) {
         try {
-            logger.info("Redirect the SuperVisor channel to conference");
+            LOG.info("Redirect the SuperVisor channel to conference");
             agent.getAdmin().getChannel().redirect("meet", "600", 1);
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
@@ -61,7 +61,7 @@ public class TalkingToSuperVisorState extends UserState {
     private void pickUser(Agent agent) {
         try {
             OriginateAction origin = new OriginateAction();
-            logger.info(agent.getUser().getParkingLotNo());
+            LOG.info(agent.getUser().getParkingLotNo());
             String channel = "SIP/" + agent.getName() + "@out";
             origin.setChannel(channel);
             origin.setContext("pickuser");
@@ -72,22 +72,22 @@ public class TalkingToSuperVisorState extends UserState {
             origin.setTimeout((long) 10000);
             ManagerServer.getManagerConnection().sendAction(origin);
         } catch (IOException ex) {
-            logger.error("IOException in pick User", ex);
+            LOG.error("IOException in pick User", ex);
         } catch (TimeoutException ex) {
-            logger.error("Time out Exception in pick User", ex);
+            LOG.error("Time out Exception in pick User", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Illegal argument Exception in pick User", ex);
+            LOG.error("Illegal argument Exception in pick User", ex);
         } catch (IllegalStateException ex) {
-            logger.error("Illegal state Exception in pick User", ex);
+            LOG.error("Illegal state Exception in pick User", ex);
         } finally {
             agent.setState(new JoinConferenceState());
-            logger.info("Changing the state to join conference state");
+            LOG.info("Changing the state to join conference state");
         }
     }
 
     private void processAgentChannel(Agent agent, AsteriskChannel channel) {
         if (channel.getState() == ChannelState.HUNGUP) {
-            logger.info("The agent's channel is hungup after putting admin's channel in confernence");
+            LOG.info("The agent's channel is hungup after putting admin's channel in confernence");
             agent.setChannel(null);
             agent.setChannelId(null);//Required to make it null
             agent.setState(new JoinConferenceState());
@@ -103,13 +103,13 @@ public class TalkingToSuperVisorState extends UserState {
             hangup.setChannel(admin.getChannel().toString());
             ManagerServer.getManagerConnection().sendAction(hangup);
         } catch (IOException ex) {
-            logger.error("IOException in hangupOther end User", ex);
+            LOG.error("IOException in hangupOther end User", ex);
         } catch (TimeoutException ex) {
-            logger.error("Time out Exception in hangupOther end User", ex);
+            LOG.error("Time out Exception in hangupOther end User", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Illegal argument Exception in hangupOther end User", ex);
+            LOG.error("Illegal argument Exception in hangupOther end User", ex);
         } catch (IllegalStateException ex) {
-            logger.error("Illegal state Exception in hangupOther end User", ex);
+            LOG.error("Illegal state Exception in hangupOther end User", ex);
         } finally {
             agent.setState(new UnParkUser());
         }

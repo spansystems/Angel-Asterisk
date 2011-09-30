@@ -9,7 +9,11 @@ import java.io.Serializable;
 
 public class InputJson implements Serializable {
 
-    private String event;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String event;
 
     public String getEvent() {
         return event;
@@ -30,7 +34,11 @@ public class InputJson implements Serializable {
 
     public static class Data implements Serializable {
 
-        private String destinationAgent;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private String destinationAgent;
         private String agent;
         private String caller;
 

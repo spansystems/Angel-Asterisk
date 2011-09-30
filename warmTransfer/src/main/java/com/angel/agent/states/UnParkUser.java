@@ -43,15 +43,15 @@ public class UnParkUser extends UserState {
             origin.setTimeout((long) 10000);
             ManagerServer.getManagerConnection().sendAction(origin);
         } catch (IOException ex) {
-            logger.error("IOException in pick user", ex);
+            LOG.error("IOException in pick user", ex);
         } catch (TimeoutException ex) {
-            logger.error("Time out Exception in pick user", ex);
+            LOG.error("Time out Exception in pick user", ex);
         } catch (IllegalArgumentException ex) {
-            logger.error("Illegal argument Exception in pick user", ex);
+            LOG.error("Illegal argument Exception in pick user", ex);
         } catch (IllegalStateException ex) {
-            logger.error("Illegal state Exception in pick user", ex);
+            LOG.error("Illegal state Exception in pick user", ex);
         } finally {
-            logger.info("Changing the state to join conference");
+            LOG.info("Changing the state to join conference");
             agent.setState(new JoinConferenceState());
         }
     }

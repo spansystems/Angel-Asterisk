@@ -8,10 +8,9 @@ import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
 import org.asteriskjava.live.ChannelState;
 
+public class ParkEvent extends IEvents {
 
-public class ParkEvent extends IEvents implements IAsteriskEvent {
-
-    public ParkEvent(InputJson json1, Agent agent) {
+    public ParkEvent(final InputJson json1, final Agent agent) {
         this.json = json1;
         this.agent = agent;
     }
@@ -22,6 +21,7 @@ public class ParkEvent extends IEvents implements IAsteriskEvent {
             agent.getState().doParkCall(agent);
         } else {
             //Send the response stating call not established b/w user and agent.
+            LOG.warn("Still the call is not established between user and agent");
         }
     }
 }

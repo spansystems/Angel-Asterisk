@@ -7,9 +7,9 @@ package com.angel.events;
 import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
 
-public class UnParkEvent extends IEvents implements IAsteriskEvent {
+public class UnParkEvent extends IEvents {
 
-    public UnParkEvent(InputJson json, Agent agent) {
+    public UnParkEvent(final InputJson json, final Agent agent) {
         this.json = json;
         this.agent = agent;
     }

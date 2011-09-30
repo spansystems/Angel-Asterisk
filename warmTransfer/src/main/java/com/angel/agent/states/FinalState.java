@@ -27,7 +27,7 @@ public class FinalState extends UserState {
             if (channel.getState() == ChannelState.HUNGUP) {
                 agent.setState(new InitialState());
             } else {
-                logger.warn("Unhandled yet");
+                LOG.warn("Unhandled yet");
             }
         }
     }

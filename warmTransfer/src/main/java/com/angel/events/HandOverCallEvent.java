@@ -7,10 +7,9 @@ package com.angel.events;
 import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
 
+public class HandOverCallEvent extends IEvents {
 
-public class HandOverCallEvent extends IEvents implements IAsteriskEvent {
-
-    public HandOverCallEvent(InputJson json, Agent agent) {
+    public HandOverCallEvent(final InputJson json, final Agent agent) {
         this.json = json;
         this.agent = agent;
     }

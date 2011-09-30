@@ -7,10 +7,9 @@ package com.angel.events;
 import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
 
+public class HangUpEvent extends IEvents {
 
-public class HangUpEvent extends IEvents implements IAsteriskEvent {
-
-    public HangUpEvent(InputJson json1, Agent agent) {
+    public HangUpEvent(final InputJson json1, final Agent agent) {
         this.json = json1;
         this.agent = agent;
     }

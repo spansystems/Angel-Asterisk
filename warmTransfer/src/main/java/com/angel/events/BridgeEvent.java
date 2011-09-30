@@ -7,10 +7,9 @@ package com.angel.events;
 import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
 
+public class BridgeEvent extends IEvents {
 
-public class BridgeEvent extends IEvents implements IAsteriskEvent {
-
-    public BridgeEvent(InputJson json1, Agent agent) {
+    public BridgeEvent(final InputJson json1, final Agent agent) {
         this.json = json1;
         this.agent = agent;
     }
@@ -18,7 +17,7 @@ public class BridgeEvent extends IEvents implements IAsteriskEvent {
     @Override
     public void run() {
         if (agent.getState().toString().contains("ParkedCallState") && agent.getChannel() == null) {
-           agent.getState().callToAdmin(json.getData().getDestinationAgent(), agent);
+            agent.getState().callToAdmin(json.getData().getDestinationAgent(), agent);
             //To be implemented
         }
     }

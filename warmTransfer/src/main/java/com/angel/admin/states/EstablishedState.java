@@ -16,17 +16,17 @@ public class EstablishedState extends UserState {
     public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException,
             IllegalStateException, IOException, TimeoutException {
         // TODO Auto-generated method stub
-        logger.info("Received onPropertyChange event " + getClass().toString());
+        LOG.info("Received onPropertyChange event " + getClass().toString());
         if (admin.getChannel() == (AsteriskChannel) event.getSource()) {
-            logger.info("Received a property change for admin channel");
+            LOG.info("Received a property change for admin channel");
             AsteriskChannel channel = (AsteriskChannel) event.getSource();
             if (channel.getState() == ChannelState.HUNGUP) {
-                logger.info("The admin state is set as hungup");
+                LOG.info("The admin state is set as hungup");
                 admin.setChannelId(null);
                 admin.setState(new InitialState());
                 admin.setChannel(null);
             } else {
-                logger.info("Not implemented yet");
+                LOG.info("Not implemented yet");
             }
         }
     }

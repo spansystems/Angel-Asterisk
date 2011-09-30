@@ -16,14 +16,14 @@ public class ParkedCallState extends UserState {
     public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException,
             IllegalStateException, IOException, TimeoutException {
         //if (event.getSource().getClass().equals(agent.getChannel().getClass())) {
-        logger.info("Property change event received in ParkedCall State" + event);
+        LOG.info("Property change event received in ParkedCall State" + event);
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
-        logger.info("Dialled channel is: " + channel.getDialedChannel());
+        LOG.info("Dialled channel is: " + channel.getDialedChannel());
         if (channel.getDialedChannel() != null) {
             processAdmin(channel, agent);
         }
         if (channel.getState() == ChannelState.UP) {
-            logger.info("Agent state is up:" + channel.getState());
+            LOG.info("Agent state is up:" + channel.getState());
         }
     }
     /*
@@ -32,7 +32,7 @@ public class ParkedCallState extends UserState {
      */
 
     public void processAdminChannel(AsteriskChannel channel, Agent agent) {
-        logger.info("Received a property change for Supervisor channel" + channel);
+        LOG.info("Received a property change for Supervisor channel" + channel);
         TalkingToSuperVisorState ta = new TalkingToSuperVisorState();
         agent.setState(ta);
     }
@@ -45,7 +45,7 @@ public class ParkedCallState extends UserState {
             admin.setAgent(agent);
             agent.setAdmin(admin);
         } else {
-            logger.info("Admin is not present or busy");
+            LOG.info("Admin is not present or busy");
         }
     }
 }
