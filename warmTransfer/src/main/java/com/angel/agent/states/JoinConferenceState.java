@@ -1,23 +1,23 @@
 package com.angel.agent.states;
 
+import java.beans.PropertyChangeEvent;
+import java.io.IOException;
+
+import org.asteriskjava.live.AsteriskChannel;
+import org.asteriskjava.live.ChannelState;
+import org.asteriskjava.manager.TimeoutException;
+import org.asteriskjava.manager.action.RedirectAction;
+
 import com.angel.agent.Agent;
 import com.angel.base.ChannelOwner;
 import com.angel.base.UserState;
 import com.angel.manager.ManagerServer;
-import java.beans.PropertyChangeEvent;
-import java.io.IOException;
-import org.asteriskjava.live.AsteriskChannel;
-import org.asteriskjava.live.ChannelState;
-import org.asteriskjava.manager.TimeoutException;
-import org.asteriskjava.manager.action.OriginateAction;
 
 public class JoinConferenceState extends UserState {
 
-    boolean userJoined = false;
-
     @Override
-    public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException,
-            IllegalStateException, TimeoutException {
+    public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
+          TimeoutException {
         LOG.info("Event class received in JoinConference for " + event.getSource().getClass().toString());
         if (event.getSource().getClass().equals(agent.getChannel().getClass())) {
             AsteriskChannel channel = (AsteriskChannel) event.getSource();
@@ -37,35 +37,33 @@ public class JoinConferenceState extends UserState {
     @Override
     public void redirectToConference(Agent agent) {
         LOG.info("Redirecting the parked channel to conference");
-        agent.getUser().getChannel().redirect("meet", "600", 1);
-        userJoined = true;
-    }
+        RedirectAction action = new RedirectAction();
+        action.setChannel(agent.getUser().getChannelAfterUnpark());
+        action.setExtraChannel(agent.getChannel().getName());
+        action.setExten("600");
+        action.setPriority(1);
+        action.setContext("meet");
+        action.setExtraContext("meet");
+        action.setExtraExten("600");
+        action.setExtraPriority(1);
 
-    private void pullAgentToConference(Agent agent) {
         try {
-            LOG.info("Putting the agent to confernece");
-            OriginateAction originateUser = new OriginateAction();
-            originateUser.setChannel("SIP/200");
-            originateUser.setApplication("meetme");
-            originateUser.setData("600,M");
-            originateUser.setExten("200");
-            originateUser.setPriority(1);
-            ManagerServer.getManagerConnection().sendAction(originateUser);
+            ManagerServer.getManagerConnection().sendAction(action);
             agent.setState(new FinalState());
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (TimeoutException e) {
-            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
+
     }
 
     private void processPeerChannel(Agent agent, AsteriskChannel channel) {
-        LOG.info("Received user channel event "
-                + channel.getState().toString());
+        LOG.info("Received user channel event " + channel.getState().toString());
         agent.getUser().setChannel(channel);
     }
 
@@ -73,14 +71,9 @@ public class JoinConferenceState extends UserState {
         LOG.info("Received agent channel event " + channel.getState().toString());
         agent.setChannel(channel);
         if (channel.getState() == ChannelState.UP) {
-            if (!userJoined) {
-                redirectToConference(agent);
-            }
+            redirectToConference(agent);
         } else if (channel.getState() == ChannelState.HUNGUP) {
-            LOG.info("Pulling the user in Conference ");
-            if (userJoined == true) {
-                pullAgentToConference(agent);
-            }
+            LOG.error("Agent channel hungup while putting him in the conference ");
         }
     }
 }

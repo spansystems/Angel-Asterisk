@@ -1,11 +1,8 @@
 package com.angel.agent.states;
 
-import com.angel.agent.Admin;
-import com.angel.agent.Agent;
-import com.angel.base.UserState;
-import com.angel.manager.ManagerServer;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
+
 import org.asteriskjava.live.AsteriskChannel;
 import org.asteriskjava.live.ChannelState;
 import org.asteriskjava.live.ManagerCommunicationException;
@@ -14,10 +11,15 @@ import org.asteriskjava.manager.TimeoutException;
 import org.asteriskjava.manager.action.HangupAction;
 import org.asteriskjava.manager.action.OriginateAction;
 
+import com.angel.agent.Admin;
+import com.angel.agent.Agent;
+import com.angel.base.UserState;
+import com.angel.manager.ManagerServer;
+
 public class TalkingToSuperVisorState extends UserState {
 
     /**
-     * 
+     *
      * @param event
      * @param agent
      * @throws IllegalArgumentException
@@ -26,9 +28,8 @@ public class TalkingToSuperVisorState extends UserState {
      * @throws TimeoutException
      */
     @Override
-    public void onPropertyChangeEvent(PropertyChangeEvent event,
-            Agent agent) throws IllegalArgumentException,
-            IllegalStateException, IOException, TimeoutException {
+    public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
+          IOException, TimeoutException {
 
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
         LOG.info("Asterisk channel in Talking to su state " + channel);
@@ -39,7 +40,7 @@ public class TalkingToSuperVisorState extends UserState {
     }
 
     /**
-     * 
+     *
      * @param agent
      */
     @Override
@@ -61,7 +62,8 @@ public class TalkingToSuperVisorState extends UserState {
     private void pickUser(Agent agent) {
         try {
             OriginateAction origin = new OriginateAction();
-            LOG.info(agent.getUser().getParkingLotNo());
+            LOG.info("Trying to unpark user with parking lot number Agent--->" + agent.getName() + "--->"
+                  + agent.getUser().getParkingLotNo());
             String channel = "SIP/" + agent.getName() + "@out";
             origin.setChannel(channel);
             origin.setContext("pickuser");
@@ -89,7 +91,7 @@ public class TalkingToSuperVisorState extends UserState {
         if (channel.getState() == ChannelState.HUNGUP) {
             LOG.info("The agent's channel is hungup after putting admin's channel in confernence");
             agent.setChannel(null);
-            agent.setChannelId(null);//Required to make it null
+            agent.setChannelId(null);// Required to make it null
             agent.setState(new JoinConferenceState());
             pickUser(agent);
         }

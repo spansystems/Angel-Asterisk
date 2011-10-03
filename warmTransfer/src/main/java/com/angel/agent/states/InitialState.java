@@ -1,30 +1,23 @@
 package com.angel.agent.states;
 
-import com.angel.agent.Agent;
-import com.angel.base.ChannelOwner;
-import com.angel.base.UserState;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
+
 import org.asteriskjava.live.AsteriskChannel;
 import org.asteriskjava.live.ChannelState;
 import org.asteriskjava.manager.TimeoutException;
 
+import com.angel.agent.Agent;
+import com.angel.base.ChannelOwner;
+import com.angel.base.UserState;
+
 public class InitialState extends UserState {
 
-    /**
-     * 
-     * @param event
-     * @param agent
-     * @throws IllegalArgumentException
-     * @throws IllegalStateException
-     * @throws IOException
-     * @throws TimeoutException
-     */
     @Override
-    public void onPropertyChangeEvent(final PropertyChangeEvent event, final Agent agent) throws IllegalArgumentException,
-            IllegalStateException, IOException, TimeoutException {
+    public void onPropertyChangeEvent(final PropertyChangeEvent event, final Agent agent)
+          throws IOException, TimeoutException {
         LOG.info("Received onPropertyChange event " + event.getSource().toString());
-        AsteriskChannel channel = (AsteriskChannel) event.getSource();
+        final AsteriskChannel channel = (AsteriskChannel) event.getSource();
         handlePropertyChangeEvent(channel, agent);
     }
 
@@ -33,7 +26,7 @@ public class InitialState extends UserState {
     }
 
     private void processAgentChannel(AsteriskChannel channel, Agent agent) {
-        //TOdo : Handle all the state change events        
+        // TOdo : Handle all the state change events
         LOG.info("Received agent on property change event");
         agent.setChannel(channel);
         if (channel.getState() == ChannelState.UP) {
@@ -47,7 +40,7 @@ public class InitialState extends UserState {
     }
 
     private void handlePropertyChangeEvent(AsteriskChannel channel, Agent agent) {
-        ChannelOwner channelName = agent.getChannelOwner(channel);
+        final ChannelOwner channelName = agent.getChannelOwner(channel);
         if (channelName.equals(ChannelOwner.USER)) {
             LOG.info("User channel");
             processUserChannel(channel, agent);

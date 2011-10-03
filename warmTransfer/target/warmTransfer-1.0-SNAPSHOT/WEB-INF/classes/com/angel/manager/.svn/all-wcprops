@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager
+END
+AgentMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 185
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/AgentMap.class
+END
+ManagerEvents.class
+K 25
+svn:wc:ra_dav:version-url
+V 190
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/ManagerEvents.class
+END
+ManagerServer.class
+K 25
+svn:wc:ra_dav:version-url
+V 190
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/ManagerServer.class
+END
+AsteriskChannelEvents.class
+K 25
+svn:wc:ra_dav:version-url
+V 198
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/AsteriskChannelEvents.class
+END
+IManager.class
+K 25
+svn:wc:ra_dav:version-url
+V 185
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/IManager.class
+END
+AdminMap.class
+K 25
+svn:wc:ra_dav:version-url
+V 185
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/AdminMap.class
+END
+AsteriskServerContextListener.class
+K 25
+svn:wc:ra_dav:version-url
+V 206
+/svn/CN10003/!svn/ver/2641/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target/warmTransfer-1.0-SNAPSHOT/WEB-INF/classes/com/angel/manager/AsteriskServerContextListener.class
+END

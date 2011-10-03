@@ -8,9 +8,13 @@ import org.asteriskjava.live.AsteriskChannel;
 import org.asteriskjava.live.ChannelState;
 import org.asteriskjava.manager.TimeoutException;
 
+/**
+ * Established state handler.
+ * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
+ */
 public class EstablishedState extends UserState {
 
-    boolean userParked = false;
+    boolean userParked;
 
     @Override
     public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException,
@@ -19,7 +23,7 @@ public class EstablishedState extends UserState {
         LOG.info("Received onPropertyChange event " + getClass().toString());
         if (admin.getChannel() == (AsteriskChannel) event.getSource()) {
             LOG.info("Received a property change for admin channel");
-            AsteriskChannel channel = (AsteriskChannel) event.getSource();
+            final AsteriskChannel channel = (AsteriskChannel) event.getSource();
             if (channel.getState() == ChannelState.HUNGUP) {
                 LOG.info("The admin state is set as hungup");
                 admin.setChannelId(null);

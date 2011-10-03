@@ -1,0 +1,80 @@
+10
+
+dir
+2661
+https://winsvn.spanservices.com/svn/CN10003/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/target
+https://winsvn.spanservices.com/svn/CN10003
+
+
+
+2011-10-03T06:57:16.926410Z
+2641
+prashanth_p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+270fcff5-6857-f446-9550-a01398ab9977
+
+generated-sources
+dir
+
+endorsed
+dir
+
+surefire
+dir
+
+warmTransfer-1.0-SNAPSHOT
+dir
+
+maven-archiver
+dir
+
+warmTransfer-1.0-SNAPSHOT.war
+file
+
+
+
+
+2011-10-03T14:47:55.541400Z
+aa17c53b9159e79d449c5a98af5cc8de
+2011-10-03T06:57:16.926410Z
+2641
+prashanth_p
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3387570
+
+classes
+dir
+

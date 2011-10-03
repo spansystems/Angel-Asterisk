@@ -13,19 +13,18 @@ import org.asteriskjava.manager.action.OriginateAction;
 
 public class SuperVisorSpyingState extends UserState {
 
-    String extensionName;
-    String extension;
+    private String extensionName;
+    private String extension;
 
-    public SuperVisorSpyingState(String name) {
+    public SuperVisorSpyingState(final String name) {
         this.extensionName = name;
         this.extension = extensionName + ",w";
     }
 
     @Override
-    public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException,
-            IllegalStateException, IOException, TimeoutException {
+    public void onPropertyChangeEvent(final PropertyChangeEvent event, final Admin admin) throws IOException, TimeoutException {
         LOG.info("Event recieved in SuperVisorSpying State " + event);
-        AsteriskChannel channel = (AsteriskChannel) event.getSource();
+        final AsteriskChannel channel = (AsteriskChannel) event.getSource();
         if (channel.getState() == ChannelState.HUNGUP) {
             admin.setChannel(null);
             admin.setChannelId(null);
@@ -34,9 +33,9 @@ public class SuperVisorSpyingState extends UserState {
 
     }
     public void channelSpy() {
-        System.out.println("Supervisor will spy the channel now");
+        LOG.info("Supervisor will spy the channel now");
         try {
-            OriginateAction originateUser = new OriginateAction();
+            final OriginateAction originateUser = new OriginateAction();
             originateUser.setChannel("SIP/300");
             originateUser.setApplication("extenspy");
             originateUser.setData(extension);
@@ -44,13 +43,13 @@ public class SuperVisorSpyingState extends UserState {
             originateUser.setPriority(1);
             ManagerServer.getManagerConnection().sendAction(originateUser);
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
+            LOG.warn("Illegal argument exception");
         } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
+            LOG.warn("Illegal state exception");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            LOG.warn("IO exception");
         } catch (TimeoutException e) {
-            // TODO Auto-generated catch block
+            LOG.warn("Timeout exception");
         }
     }
 }

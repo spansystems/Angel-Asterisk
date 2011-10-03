@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager
+END
+ManagerEvents.java
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/ManagerEvents.java
+END
+ManagerServer.java
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/ManagerServer.java
+END
+AsteriskChannelEvents.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskChannelEvents.java
+END
+IManager.java
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/IManager.java
+END
+AdminMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AdminMap.java
+END
+AsteriskServerContextListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 170
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskServerContextListener.java
+END
+AgentMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AgentMap.java
+END
