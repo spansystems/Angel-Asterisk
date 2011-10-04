@@ -41,8 +41,7 @@ public class AsteriskRestTests extends ConsoleLogSupport
 		MockHttpRequest req = MockHttpRequest.get(url);
 		MockHttpResponse resp = new MockHttpResponse();
 
-		String json = "{\"event\":\"PARK_CALL\"},\"data\":{\"agent\":200,\"caller\":50},";
-//		String json = "{\"event\":\"PARK_CALL\"}";
+		String json = "{\"event\":\"PARK_CALL\"},\"data\":{\"agent\":200,\"caller\":50}";
 		req.contentType(MediaType.APPLICATION_JSON);
 		req.content(json.getBytes());
 		System.out.println("Invoking - " + req.getUri().getPath());

@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
 package com.angel.manager;
 
@@ -13,64 +13,87 @@ import org.asteriskjava.live.MeetMeUser;
 import org.asteriskjava.live.internal.AsteriskAgentImpl;
 
 /**
- *
+ * 
  * @author prashanth_p
  */
-public class AsteriskChannelEvents extends IManager implements AsteriskServerListener {
+public class AsteriskChannelEvents extends IManager implements AsteriskServerListener
+{
 
-    void initialize() {
-        ManagerServer.getAsteriskServer().addAsteriskServerListener(this);
-    }
+	void initialize()
+	{
+		ManagerServer.getAsteriskServer().addAsteriskServerListener(this);
+	}
 
-    @Override
-    public void onNewAsteriskChannel(final AsteriskChannel channel) {
-        Logger.info("Asterisk Channel received: " + channel);
-        final String channelId = channel.getId();
-        final Agent userAgent = getUserAgentForTheChannel(channelId);
-        if (userAgent != null) {
-            userAgent.onNewAsteriskChannel(channel);
-        } else {
-            final Admin localAdmin = getAdminChannelID(channelId);
-            if (null != localAdmin) {
-                localAdmin.onNewAsteriskChannel(channel);
-                Logger.info("In Admin new asterisk channel");
-            } else {
-                Logger.info("Asterisk channel Unidentified:" + channel);
-            }
-        }
-    }
+	@Override
+	public void onNewAsteriskChannel(final AsteriskChannel channel)
+	{
+		Logger.info("Asterisk Channel received: " + channel);
+		final String channelId = channel.getId();
+		final Agent userAgent = getUserAgentForTheChannel(channelId);
+		if (userAgent != null)
+		{
+			userAgent.onNewAsteriskChannel(channel);
+		}
+		else
+		{
+			final Admin localAdmin = getAdminChannelID(channelId);
+			if (null != localAdmin)
+			{
+				localAdmin.onNewAsteriskChannel(channel);
+				Logger.info("In Admin new asterisk channel");
+			}
+			else
+			{
+				Logger.info("Asterisk channel Unidentified:" + channel);
+			}
+		}
+	}
 
-    @Override
-    public void onNewMeetMeUser(MeetMeUser user) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public void onNewMeetMeUser(MeetMeUser user)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public void onNewAgent(AsteriskAgentImpl agent) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public void onNewAgent(AsteriskAgentImpl agent)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public void onNewQueueEntry(AsteriskQueueEntry entry) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    
-    /**
-     * Checks and returns the instance Agent(only) for Asterisk Channel event received.
-     * @param id of the agent.
-     * @return Agent the agent associated.
-     */
+	@Override
+	public void onNewQueueEntry(AsteriskQueueEntry entry)
+	{
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    public Agent getUserAgentForTheChannel(final String id) {
-        return AgentMap.getAgentMap().getAgentById(id);
-    }
-    /**
-     * Returns admin instance according as the Asterisk channel received.
-     * @param id the admin id.
-     * @return Admin associated with id;
-     */
-    public Admin getAdminChannelID(final String id) {
-        return AdminMap.getAdminMap().getAdminById(id);
-    }
+	/**
+	 * Checks and returns the instance Agent(only) for Asterisk Channel event
+	 * received.
+	 * 
+	 * @param id
+	 *            of the agent.
+	 * @return Agent the agent associated.
+	 */
+
+	public Agent getUserAgentForTheChannel(final String id)
+	{
+		if (null != AgentMap.getAgentMap().getAgentById(id))
+		{
+			return AgentMap.getAgentMap().getAgentById(id);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns admin instance according as the Asterisk channel received.
+	 * 
+	 * @param id
+	 *            the admin id.
+	 * @return Admin associated with id;
+	 */
+	public Admin getAdminChannelID(final String id)
+	{
+		return AdminMap.getAdminMap().getAdminById(id);
+	}
 }

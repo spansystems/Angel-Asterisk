@@ -19,13 +19,10 @@ public class ParkedCallState extends UserState
 	public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
 			IOException, TimeoutException
 	{
-		// if
-		// (event.getSource().getClass().equals(agent.getChannel().getClass()))
-		// {
 		LOG.info("Property change event received in ParkedCall State" + event);
 		AsteriskChannel channel = (AsteriskChannel) event.getSource();
 		LOG.info("Dialled channel is: " + channel.getDialedChannel());
-		if (channel.getDialedChannel() != null)
+		if (null != channel.getDialedChannel())
 		{
 			processAdmin(channel, agent);
 		}
@@ -53,7 +50,7 @@ public class ParkedCallState extends UserState
 		AsteriskChannel dialedChannel = channel.getDialedChannel();
 		String id = dialedChannel.getId();
 		Admin admin = AdminMap.getAdminMap().getAdminById(id);
-		if (admin.getChannelId().equals(id))
+		if (null != admin.getChannelId() && admin.getChannelId().equals(id))
 		{
 			admin.setAgent(agent);
 			agent.setAdmin(admin);
