@@ -10,7 +10,7 @@ import org.asteriskjava.manager.TimeoutException;
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
 import com.angel.base.UserState;
-import com.angel.manager.AdminMap;
+import com.angel.utility.AdminMap;
 
 public class ParkedCallState extends UserState
 {
@@ -49,15 +49,22 @@ public class ParkedCallState extends UserState
 	{
 		AsteriskChannel dialedChannel = channel.getDialedChannel();
 		String id = dialedChannel.getId();
-		Admin admin = AdminMap.getAdminMap().getAdminById(id);
-		if (null != admin.getChannelId() && admin.getChannelId().equals(id))
+		try
 		{
-			admin.setAgent(agent);
-			agent.setAdmin(admin);
+			Admin admin = AdminMap.getAdminMap().getAdminById(id);
+			if (null != admin.getChannelId() && admin.getChannelId().equals(id))
+			{
+				admin.setAgent(agent);
+				agent.setAdmin(admin);
+			}
+			else
+			{
+				LOG.info("Admin is not present or busy");
+			}
 		}
-		else
+		catch (Exception e)
 		{
-			LOG.info("Admin is not present or busy");
+			LOG.warn("Exception while checking admin channel id;preferably the event is for parked user and is not required to be handled");
 		}
 	}
 }

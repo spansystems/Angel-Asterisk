@@ -16,6 +16,8 @@ import org.asteriskjava.manager.event.UnparkedCallEvent;
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
 import com.angel.agent.User;
+import com.angel.utility.AdminMap;
+import com.angel.utility.AgentMap;
 
 /**
  * Manager event listener.
@@ -142,15 +144,17 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void onNewChannelEvent(final ManagerEvent event)
 	{
 		Logger.info("Manager new channel event received: " + event);
 		NewChannelEvent channel = (NewChannelEvent) event;
-		if (null != channel.getCallerIdName() && null != channel.getExten())
+		if (null != channel.getCallerId() && null != channel.getExten())
 		{
 			if (!AgentMap.getAgentMap().checkAgentExist(channel.getExten()))
 			{
 				AgentMap.getAgentMap().setAgent(channel.getExten(), new Agent(channel.getExten()));
+				Logger.info("Added new agent to Agent Map", channel.getExten());
 			}
 			setUserInfo(channel);
 		}
@@ -170,7 +174,9 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		final DialEvent channel = (DialEvent) event;
 		if (null != channel.getDialString())
 		{
-			final String dialedString = channel.getDialString().replace("@out", "");
+			
+			final String[] dialedStringArray = channel.getDialString().split("@");
+			final String dialedString = dialedStringArray[0];
 			if (AgentMap.getAgentMap().checkAgentExist(dialedString))
 			{
 				final Agent agentReceived = AgentMap.getAgentMap().getAgent(dialedString);
@@ -211,11 +217,12 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 	@SuppressWarnings("deprecation")
 	private void onHangupEvent(final ManagerEvent event)
 	{
-		Logger.info("Manager new channel event received: " + event);
+		Logger.info("Manager Hangup channel event received: " + event);
 		HangupEvent channel = (HangupEvent) event;
 		if (null != AgentMap.getAgentMap().getAgentByUser(channel.getCallerId()))
 		{
 			Agent agentToHangup = AgentMap.getAgentMap().getAgentByUser(channel.getCallerId());
+			Logger.info("Removing agent from agent map", agentToHangup.name);
 			agentToHangup.getState().toInitialState(agentToHangup);
 
 		}
@@ -292,5 +299,11 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		{
 			Logger.info("Agent, user trying to call doen't exist");
 		}
+	}
+	public static void main(String[] args){
+		final String[] dialedStringArray = "prashant@pratik".split("@");
+		final String dialedString = dialedStringArray[0];
+		System.out.println(dialedString);
+		
 	}
 }

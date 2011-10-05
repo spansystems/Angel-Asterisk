@@ -16,49 +16,69 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Asterisk server context listener.
+ * 
  * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
-public class AsteriskServerContextListener implements ServletContextListener {
+public class AsteriskServerContextListener implements ServletContextListener
+{
 
-    public static final Logger LOG = LoggerFactory.getLogger(AsteriskServerContextListener.class);
+	public static final Logger LOG = LoggerFactory.getLogger(AsteriskServerContextListener.class);
 
-    /**
-     * ContextDestroyed.
-     * @param arg0 ServletContextEvent .
-     */
-    @Override
-    public void contextDestroyed(ServletContextEvent arg0) {
-        // TODO Auto-generated method stub
-    }
+	/**
+	 * ContextDestroyed.
+	 * 
+	 * @param arg0
+	 *            ServletContextEvent .
+	 */
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0)
+	{
+		ManagerServer.getManagerConnection().logoff();
+	}
 
-    /**
-     * ContextInitialized.
-     *
-     * @param servletContextEvent  ServletContextEvent .
-     */
-    @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
-        LOG.info("Initializing connection with asterisk server");
-        connectToAseriskServer();
-    }
+	/**
+	 * ContextInitialized.
+	 * 
+	 * @param servletContextEvent
+	 *            ServletContextEvent .
+	 */
+	@Override
+	public void contextInitialized(ServletContextEvent servletContextEvent)
+	{
+		LOG.info("Initializing connection with asterisk server");
+		connectToAseriskServer();
+	}
 
-    /**
-     * Instantiate the manager class and call run method to connect with asterisk server.
-     *
-     */
-    private void connectToAseriskServer() {
-        try {
-            new ManagerServer().run();
-        } catch (ManagerCommunicationException ex) {
-            LOG.error("Manager Communication exception", ex);
-        } catch (IllegalArgumentException ex) {
-            LOG.error("Illegal argument exception", ex);
-        } catch (IllegalStateException ex) {
-            LOG.error("Illegal state exception", ex);
-        } catch (IOException ex) {
-            LOG.error("IO exception", ex);
-        } catch (TimeoutException ex) {
-            LOG.error("Time out exception", ex);
-        }
-    }
+	/**
+	 * Instantiate the manager class and call run method to connect with
+	 * asterisk server.
+	 * 
+	 */
+	private void connectToAseriskServer()
+	{
+		try
+		{
+			new ManagerServer().run();
+		}
+		catch (ManagerCommunicationException ex)
+		{
+			LOG.error("Manager Communication exception", ex);
+		}
+		catch (IllegalArgumentException ex)
+		{
+			LOG.error("Illegal argument exception", ex);
+		}
+		catch (IllegalStateException ex)
+		{
+			LOG.error("Illegal state exception", ex);
+		}
+		catch (IOException ex)
+		{
+			LOG.error("IO exception", ex);
+		}
+		catch (TimeoutException ex)
+		{
+			LOG.error("Time out exception", ex);
+		}
+	}
 }

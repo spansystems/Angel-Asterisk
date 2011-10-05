@@ -6,8 +6,8 @@ package com.angel.events;
 
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
-import com.angel.manager.AdminMap;
 import com.angel.rest.InputJson;
+import com.angel.utility.AdminMap;
 
 public class BridgeEvent extends IEvents
 {

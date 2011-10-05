@@ -21,9 +21,9 @@ public class FinalState extends UserState {
           IOException, TimeoutException {
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
         if (channel.getState() == ChannelState.HUNGUP) {
-            agent.setState(new InitialState());
+        	super.toInitialState(agent);
         } else {
-            LOG.warn("Unhandled yet");
+            LOG.info("Unhandled yet");
         }
 
     }

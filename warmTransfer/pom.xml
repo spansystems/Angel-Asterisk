@@ -112,10 +112,9 @@
 		</dependency>		
 
 		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant-apache-log4j</artifactId>
-			<version>1.6.5</version>
-			<type>jar</type>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>

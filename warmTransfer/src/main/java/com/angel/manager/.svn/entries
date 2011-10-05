@@ -28,20 +28,15 @@ ravindra_d
 
 ManagerEvents.java
 file
+2685
 
 
 
-
-2011-10-03T14:48:03.987330Z
-706020ef16ca17e8bcabf6adac86610c
-2011-10-03T13:17:02.713033Z
-2659
-ravindra_d
-
-
-
-
-
+2011-10-05T12:18:18.351499Z
+3e4a9a94c4f7b925759af9530dc67536
+2011-10-05T12:48:24.527494Z
+2685
+prashanth_p
 
 
 
@@ -58,7 +53,12 @@ ravindra_d
 
 
 
-9591
+
+
+
+
+
+9662
 
 ManagerServer.java
 file
@@ -96,20 +96,15 @@ ravindra_d
 
 AsteriskChannelEvents.java
 file
+2685
 
 
 
-
-2011-10-03T14:48:04.018553Z
-5407e465a92ee95d9500b4ac9e9d73b9
-2011-10-03T13:17:02.713033Z
-2659
-ravindra_d
-
-
-
-
-
+2011-10-05T09:29:21.881064Z
+edaaea4fa7fc9ee319c53efe139b3061
+2011-10-05T12:48:24.527494Z
+2685
+prashanth_p
 
 
 
@@ -126,7 +121,12 @@ ravindra_d
 
 
 
-2416
+
+
+
+
+
+2295
 
 IManager.java
 file
@@ -164,15 +164,7 @@ ravindra_d
 
 AdminMap.java
 file
-
-
-
-
-2011-10-03T14:48:04.034165Z
-a85f1bcd94bc9b0ffb0b3bf4bed8b2c3
-2011-10-03T13:17:02.713033Z
-2659
-ravindra_d
+2685
 
 
 
@@ -192,26 +184,19 @@ ravindra_d
 
 
 
-
-
-2437
+deleted
 
 AsteriskServerContextListener.java
 file
+2684
 
 
 
-
-2011-10-03T14:48:04.049776Z
-aa51909ad7b85a497bb02cd3bddc3a6e
-2011-10-03T13:17:02.713033Z
-2659
-ravindra_d
-
-
-
-
-
+2011-10-05T06:39:53.090590Z
+301ce302adef9738d5290f5cd2248716
+2011-10-05T09:05:44.925791Z
+2684
+prashanth_p
 
 
 
@@ -228,19 +213,50 @@ ravindra_d
 
 
 
-1946
+
+
+
+
+
+1847
+
+ManagerType.java
+file
+2680
+
+
+
+2011-10-04T13:24:46.245917Z
+05907655953258c482ed0fd5287a3960
+2011-10-04T13:47:06.133237Z
+2680
+prashanth_p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+281
 
 AgentMap.java
 file
-
-
-
-
-2011-10-03T14:48:04.049776Z
-524b7a4d1b82804ad4eafa1bfc39bccf
-2011-10-03T13:17:02.713033Z
-2659
-ravindra_d
+2685
 
 
 
@@ -260,7 +276,5 @@ ravindra_d
 
 
 
-
-
-3243
+deleted
 

@@ -7,7 +7,7 @@ ManagerEvents.java
 K 25
 svn:wc:ra_dav:version-url
 V 154
-/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/ManagerEvents.java
+/svn/CN10003/!svn/ver/2685/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/ManagerEvents.java
 END
 ManagerServer.java
 K 25
@@ -19,7 +19,7 @@ AsteriskChannelEvents.java
 K 25
 svn:wc:ra_dav:version-url
 V 162
-/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskChannelEvents.java
+/svn/CN10003/!svn/ver/2685/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskChannelEvents.java
 END
 IManager.java
 K 25
@@ -27,21 +27,15 @@ svn:wc:ra_dav:version-url
 V 149
 /svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/IManager.java
 END
-AdminMap.java
-K 25
-svn:wc:ra_dav:version-url
-V 149
-/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AdminMap.java
-END
 AsteriskServerContextListener.java
 K 25
 svn:wc:ra_dav:version-url
 V 170
-/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskServerContextListener.java
+/svn/CN10003/!svn/ver/2684/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AsteriskServerContextListener.java
 END
-AgentMap.java
+ManagerType.java
 K 25
 svn:wc:ra_dav:version-url
-V 149
-/svn/CN10003/!svn/ver/2659/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/AgentMap.java
+V 152
+/svn/CN10003/!svn/ver/2680/trunk/PMTS/Artifacts/Development_Area/Prashanth_P/Asterisk-Code/warmTransfer/src/main/java/com/angel/manager/ManagerType.java
 END

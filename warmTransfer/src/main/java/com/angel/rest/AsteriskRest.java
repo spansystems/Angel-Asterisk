@@ -9,7 +9,6 @@ import java.io.InputStream;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -25,7 +24,7 @@ import com.angel.events.IEvents;
 import com.angel.events.JoinCallEvent;
 import com.angel.events.ParkEvent;
 import com.angel.events.UnParkEvent;
-import com.angel.manager.AgentMap;
+import com.angel.utility.AgentMap;
 
 /**
  * Asterisk restlet.
@@ -51,13 +50,13 @@ public class AsteriskRest implements IAsteriskRest
 		try
 		{
 			json = mapper.readValue(data, InputJson.class);
-			processRequest(json);
+			processRequest(json, agentId);
 		}
 		catch (IOException ex)
 		{
 			LOG.warn("Json validation failed");
 			responseString = "Not able to read Json format";
-			sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+			sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agentId);
 		}
 		finally
 		{
@@ -65,7 +64,7 @@ public class AsteriskRest implements IAsteriskRest
 		}
 	}
 
-	private void processRequest(InputJson json)
+	private void processRequest(InputJson json, String agentId)
 	{
 		try
 		{
@@ -76,7 +75,8 @@ public class AsteriskRest implements IAsteriskRest
 
 			if (null != agent)
 			{
-				response = Response.ok().build();
+				responseString = "Request processed";
+				sendJsonResponse(responseString, Status.OK, agent.name);
 				switch (event)
 				{
 					case HANG_UP_CALL:
@@ -89,7 +89,7 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id not found(Hang up call");
 							responseString = "Destination agent id notfound(Hangup call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
 						}
 						break;
 					case PARK_CALL:
@@ -106,7 +106,7 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id notfound(Bridge call)");
 							responseString = "Destination agent id notfound(Bridge call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
 						}
 						break;
 					case JOIN_CALL:
@@ -127,12 +127,12 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id notfound(Hand Over call)");
 							responseString = "Destination agent id notfound(Hand Over call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
 						}
 						break;
 					default:
 						responseString = "action unidentified";
-						sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+						sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
 
 				}
 			}
@@ -140,27 +140,28 @@ public class AsteriskRest implements IAsteriskRest
 			{
 				LOG.warn("Destination agent id not found");
 				responseString = "Agent not found";
-				sendJsonResponse(responseString, Status.FORBIDDEN);
+				sendJsonResponse(responseString, Status.FORBIDDEN, agentId);
 			}
 		}
 		catch (Exception e)
 		{
 			LOG.warn("Exception while processing event", e);
 			responseString = "Internal server error";
-			sendJsonResponse(responseString, Status.INTERNAL_SERVER_ERROR);
+			sendJsonResponse(responseString, Status.INTERNAL_SERVER_ERROR, agentId);
 		}
 
 	}
 
-	private void sendJsonResponse(final String responseString, Status status)
+	private void sendJsonResponse(final String responseString, Status status, String agentName)
 	{
 
 		final OutputJson jsonOut = new OutputJson();
+		jsonOut.setAgent(agentName);
 		jsonOut.setResponse(responseString);
 		try
 		{
 			final String outStr = mapper.writeValueAsString(jsonOut);
-			response = Response.status(Status.FORBIDDEN).entity(outStr).build();
+			response = Response.status(status).entity(outStr).build();
 		}
 		catch (Exception ex)
 		{
@@ -177,14 +178,14 @@ public class AsteriskRest implements IAsteriskRest
 		try
 		{
 			json = mapper.readValue(postData, InputJson.class);
-			processRequest(json);
+			processRequest(json, agentId);
 		}
 		catch (IOException e)
 		{
 			LOG.warn("Json validation failed");
 			e.printStackTrace();
 			responseString = "Not able to read Json format";
-			sendJsonResponse(responseString, Status.NOT_ACCEPTABLE);
+			sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agentId);
 		}
 		finally
 		{

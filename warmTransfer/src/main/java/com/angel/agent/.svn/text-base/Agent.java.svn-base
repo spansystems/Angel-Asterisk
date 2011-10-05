@@ -134,14 +134,7 @@ public final class Agent extends IAgent implements PropertyChangeListener {
             LOG.error("Time out exception ", ex);
         }
     }
-
-    /**
-     * 
-     */
-    public void parkCall() {
-        this.state.doParkCall(this);
-    }
-
+    
     /**
      *
      * @param receivedChannel

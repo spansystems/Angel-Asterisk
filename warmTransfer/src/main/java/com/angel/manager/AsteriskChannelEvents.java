@@ -4,13 +4,16 @@
  */
 package com.angel.manager;
 
-import com.angel.agent.Admin;
-import com.angel.agent.Agent;
 import org.asteriskjava.live.AsteriskChannel;
 import org.asteriskjava.live.AsteriskQueueEntry;
 import org.asteriskjava.live.AsteriskServerListener;
 import org.asteriskjava.live.MeetMeUser;
 import org.asteriskjava.live.internal.AsteriskAgentImpl;
+
+import com.angel.agent.Admin;
+import com.angel.agent.Agent;
+import com.angel.utility.AdminMap;
+import com.angel.utility.AgentMap;
 
 /**
  * 
@@ -52,19 +55,19 @@ public class AsteriskChannelEvents extends IManager implements AsteriskServerLis
 	@Override
 	public void onNewMeetMeUser(MeetMeUser user)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
+		Logger.info("Unsupported yet");
 	}
 
 	@Override
 	public void onNewAgent(AsteriskAgentImpl agent)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
+		Logger.info("Unsupported yet");
 	}
 
 	@Override
 	public void onNewQueueEntry(AsteriskQueueEntry entry)
 	{
-		throw new UnsupportedOperationException("Not supported yet.");
+		Logger.info("Unsupported yet");
 	}
 
 	/**
