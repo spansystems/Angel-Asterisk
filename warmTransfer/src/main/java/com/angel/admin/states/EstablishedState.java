@@ -37,6 +37,7 @@ public class EstablishedState extends UserState
 				admin.setChannelId(null);
 				admin.setChannel(null);
 				AdminMap.getAdminMap().removeAdmin(admin.getName());
+				admin = null;// Make it null for garbage collection
 				LOG.info("Removed admin object from Admin Map");
 			}
 			else

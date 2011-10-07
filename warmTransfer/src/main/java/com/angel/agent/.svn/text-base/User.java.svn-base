@@ -16,16 +16,16 @@ public class User {
     private String parkingLotNo;
     private String channelId;
     private AsteriskChannel channel;
-    private String channelAfterUnpark;
+    private String channelName;
 
-    public String getChannelAfterUnpark()
+    public String getChannelName()
 	{
-		return channelAfterUnpark;
+		return channelName;
 	}
 
-	public void setChannelAfterUnpark(final String channelAfterUnpark)
+	public void setChannelName(final String channelAfterUnpark)
 	{
-		this.channelAfterUnpark = channelAfterUnpark;
+		this.channelName = channelAfterUnpark;
 	}
 
 	public String getParkingLotNo() {

@@ -14,5 +14,5 @@ import org.slf4j.LoggerFactory;
 public abstract class IManager
 {
 
-	public static final Logger Logger = LoggerFactory.getLogger(IManager.class);
+	public static final Logger LOG = LoggerFactory.getLogger(IManager.class);
 }

@@ -10,6 +10,7 @@ import org.asteriskjava.manager.TimeoutException;
 import com.angel.agent.Agent;
 import com.angel.base.ChannelOwner;
 import com.angel.base.UserState;
+import com.angel.utility.Actions;
 
 public class InitialState extends UserState
 {
@@ -41,7 +42,7 @@ public class InitialState extends UserState
 		else
 			if (channel.getState() == ChannelState.HUNGUP)
 			{
-				super.toInitialState(agent);
+				Actions.getActionObject().cleanObject(agent);
 
 			}
 	}

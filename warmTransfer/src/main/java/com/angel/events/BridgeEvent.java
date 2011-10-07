@@ -7,6 +7,7 @@ package com.angel.events;
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
 import com.angel.rest.InputJson;
+import com.angel.utility.Actions;
 import com.angel.utility.AdminMap;
 
 public class BridgeEvent extends IEvents
@@ -27,7 +28,7 @@ public class BridgeEvent extends IEvents
 			if (!AdminMap.getAdminMap().checkAdminExist(adminName))
 			{
 				AdminMap.getAdminMap().setAdmin(adminName, new Admin(adminName));
-				agent.getState().callToAdmin(json.getData().getDestinationAgent(), agent);
+				Actions.getActionObject().callToAdmin(json.getData().getDestinationAgent(), agent);
 			}
 			else
 			{

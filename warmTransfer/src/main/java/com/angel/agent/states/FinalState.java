@@ -13,6 +13,7 @@ import org.asteriskjava.manager.TimeoutException;
 
 import com.angel.agent.Agent;
 import com.angel.base.UserState;
+import com.angel.utility.Actions;
 
 public class FinalState extends UserState {
 
@@ -21,7 +22,7 @@ public class FinalState extends UserState {
           IOException, TimeoutException {
         AsteriskChannel channel = (AsteriskChannel) event.getSource();
         if (channel.getState() == ChannelState.HUNGUP) {
-        	super.toInitialState(agent);
+        	Actions.getActionObject().cleanObject(agent);
         } else {
             LOG.info("Unhandled yet");
         }

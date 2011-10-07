@@ -18,90 +18,122 @@ import org.asteriskjava.manager.action.StatusAction;
 
 /**
  * Manager server class.
+ * 
  * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
-public final class ManagerServer extends IManager {
+public final class ManagerServer extends IManager
+{
 
-    private static AsteriskServer asteriskServer;
-    private static ManagerConnection managerConnection;
-    private String asteriskIP;
-    private String loginName;
-    private String loginPwd;
-    private ManagerEvents manager;
-    private AsteriskChannelEvents asteriskChannelEventHandler;
+	private static AsteriskServer asteriskServer;
+	private static ManagerConnection managerConnection;
+	private static String outboundproxy;
+	private String asteriskIP;
+	private String loginName;
+	private String loginPwd;
+	private ManagerEvents manager;
+	private AsteriskChannelEvents asteriskChannelEventHandler;
 
-    /**
-     * Constructor is used to initate the connection with asterisk server with
-     * ip, username and passwd. Agent and Admin are instantiazed at this point.
-     */
-    public ManagerServer() {
-        loadConfig();
-        asteriskServer = new DefaultAsteriskServer(asteriskIP, loginName, loginPwd);
-        managerConnection = asteriskServer.getManagerConnection();
-        manager = new ManagerEvents();
-        asteriskChannelEventHandler = new AsteriskChannelEvents();
-    }
+	/**
+	 * Constructor is used to initate the connection with asterisk server with
+	 * ip, username and passwd. Agent and Admin are instantiazed at this point.
+	 */
+	public ManagerServer()
+	{
+		loadConfig();
+		asteriskServer = new DefaultAsteriskServer(asteriskIP, loginName, loginPwd);
+		managerConnection = asteriskServer.getManagerConnection();
+		manager = new ManagerEvents();
+		asteriskChannelEventHandler = new AsteriskChannelEvents();
+	}
 
-    /**
-     * Adding the listeners to this class for asterisk events and status events.
-     * @return AsteriskServer the asterisk server.
-     */
-    public static AsteriskServer getAsteriskServer() {
-        return asteriskServer;
-    }
+	/**
+	 * Adding the listeners to this class for asterisk events and status events.
+	 * 
+	 * @return AsteriskServer the asterisk server.
+	 */
+	public static AsteriskServer getAsteriskServer()
+	{
+		return asteriskServer;
+	}
 
-    public void run() throws ManagerCommunicationException, IllegalArgumentException, IllegalStateException, IOException, TimeoutException {
-        asteriskChannelEventHandler.initialize();
-        manager.initialize();
-        final StatusAction action = new StatusAction();
-        managerConnection.sendAction(action);
-    }
+	public static String getOutboundproxy()
+	{
+		return outboundproxy;
+	}
 
-    /*
-     * Receives NewAsteriskChannel channel from Asterisk server.
-     */
-    public static ManagerConnection getManagerConnection() {
-        return managerConnection;
-    }
+	public static ManagerConnection getManagerConnection()
+	{
+		return managerConnection;
+	}
 
-    /*
-     * Reads the property file to login to Asterisk server
-     */
-    private void loadConfig() {
-        try {
-            final Properties props = ManagerServer.loadProperties(ManagerServer.class, "/resources/conf.properties");
-            asteriskIP = props.getProperty("ip");
-            loginName = props.getProperty("username");
-            loginPwd = props.getProperty("pwd");
-        } catch (IOException ex) {
-            Logger.error("IO Exception while reading the configuration file.", ex);
-        }
-    }
+	public void run() throws ManagerCommunicationException, IllegalArgumentException, IllegalStateException, IOException, TimeoutException
+	{
+		asteriskChannelEventHandler.initialize();
+		manager.initialize();
+		final StatusAction action = new StatusAction();
+		managerConnection.sendAction(action);
+	}
 
-    /**
-     * This method search for the property file in local resource.
-     * @param clazz name of the class.
-     * @param resourceName configuration file name
-     */
-    public static Properties loadProperties(final Class<?> clazz, final String resourceName) throws IOException {
-        final Properties props = new Properties();
-        InputStream inStream = null;
+	/*
+	 * Receives NewAsteriskChannel channel from Asterisk server.
+	 */
 
-        try {
-            inStream = clazz.getResourceAsStream(resourceName);
-            if (inStream == null) {
-                throw new IOException("Error while loading " + resourceName + ": resource not found in the JAR file");
-            }
-            if (resourceName.endsWith(".properties")) {
-                props.load(inStream);
-            } else {
-                throw new IOException("Property file " + resourceName + " must end with .xml or .properties");
-            }
-            return props;
-        } finally {
-            if (inStream != null) {
-                inStream.close();
-            }
-        }
-    }
+	/*
+	 * Reads the property file to login to Asterisk server
+	 */
+	private void loadConfig()
+	{
+		try
+		{
+			final Properties props = ManagerServer.loadProperties(ManagerServer.class, "/resources/conf.properties");
+			asteriskIP = props.getProperty("asterisk_ip");
+			loginName = props.getProperty("username");
+			loginPwd = props.getProperty("pwd");
+			outboundproxy = props.getProperty("outboundproxy");
+		}
+		catch (IOException ex)
+		{
+			LOG.error("IO Exception while reading the configuration file.", ex);
+		}
+	}
+
+	/**
+	 * This method search for the property file in local resource.
+	 * 
+	 * @param clazz
+	 *            name of the class.
+	 * @param resourceName
+	 *            configuration file name
+	 */
+	public static Properties loadProperties(final Class<?> clazz, final String resourceName) throws IOException
+	{
+		final Properties props = new Properties();
+		InputStream inStream = null;
+
+		try
+		{
+			inStream = clazz.getResourceAsStream(resourceName);
+			if (inStream == null)
+			{
+				throw new IOException("Error while loading " + resourceName + ": resource not found in the JAR file");
+			}
+			if (resourceName.endsWith(".properties"))
+			{
+				props.load(inStream);
+			}
+			else
+			{
+				throw new IOException("Property file " + resourceName + " must end with .xml or .properties");
+			}
+			return props;
+		}
+		finally
+		{
+			if (inStream != null)
+			{
+				inStream.close();
+			}
+		}
+	}
+
 }

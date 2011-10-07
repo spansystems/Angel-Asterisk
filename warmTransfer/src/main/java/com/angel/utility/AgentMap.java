@@ -109,8 +109,8 @@ public class AgentMap
 		{
 			while (it.hasNext())
 			{
-				final Agent agent = (Agent) it.next();
-				if (agent.getChannelId().equals(id) || agent.getUser().getChannelId().equals(id))
+				Agent agent = (Agent) it.next();
+				if (agent.getUser().getChannelId().equals(id) || agent.getChannelId().equals(id))
 				{
 					LOGGER.info("Success returned from getAgent from ID");
 					return agent;
@@ -119,7 +119,7 @@ public class AgentMap
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn("Exception while checking agent Id or User id");
+			LOGGER.warn("Exception while checking agent Id or User id",e);
 		}
 		LOGGER.info("Not Success");
 		return null;

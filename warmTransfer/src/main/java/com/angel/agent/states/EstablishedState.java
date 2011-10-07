@@ -9,6 +9,7 @@ import org.asteriskjava.manager.TimeoutException;
 
 import com.angel.agent.Agent;
 import com.angel.base.UserState;
+import com.angel.utility.Actions;
 
 /**
  * User state handler.
@@ -34,7 +35,7 @@ public class EstablishedState extends UserState
 			}
 			else
 			{
-				super.toInitialState(agent);
+				Actions.getActionObject().cleanObject(agent);
 			}
 		}
 	}
@@ -55,8 +56,8 @@ public class EstablishedState extends UserState
 		}
 	}
 
-	public void processParkedUser()
+	public void processParkedUser(boolean check)
 	{
-		userParked = true;
+		userParked = check;
 	}
 }

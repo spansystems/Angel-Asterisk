@@ -34,10 +34,10 @@ public class Actions
 		{
 
 			LOG.info("Trying to park call " + agent.getUser().getCallerId());
-			final ParkAction park = new ParkAction(agent.getUser().getChannel().getName(), agent.getChannel().getName());
+			ParkAction park = new ParkAction(agent.getUser().getChannelName(), agent.getChannel().getName());
 			ManagerServer.getManagerConnection().sendAction(park);
 			Thread.sleep(500);
-			final ParkedCallsAction parkAction = new ParkedCallsAction();
+			ParkedCallsAction parkAction = new ParkedCallsAction();
 			ManagerServer.getManagerConnection().sendAction(parkAction);
 
 		}
@@ -89,6 +89,7 @@ public class Actions
 			LOG.error("Illegal state Exception in hangupOther end User", ex);
 		}
 	}
+
 	public void unParkUser(Agent agent)
 	{
 		try
@@ -96,7 +97,7 @@ public class Actions
 			OriginateAction origin = new OriginateAction();
 			LOG.info("Trying to unpark user with parking lot number Agent--->" + agent.getName() + "--->"
 					+ agent.getUser().getParkingLotNo());
-			String channel = "SIP/" + agent.getName() + "@out";
+			String channel = "SIP/" + agent.getName() + "@" + ManagerServer.getOutboundproxy();
 			origin.setChannel(channel);
 			origin.setContext("pickuser");
 			origin.setExten(agent.getUser().getParkingLotNo());
@@ -105,6 +106,7 @@ public class Actions
 			origin.setVariable("name", agent.getName());
 			origin.setTimeout((long) 10000);
 			ManagerServer.getManagerConnection().sendAction(origin);
+
 		}
 		catch (IOException ex)
 		{
@@ -122,6 +124,51 @@ public class Actions
 		{
 			LOG.error("Illegal state Exception in pick User", ex);
 		}
-		
+
+	}
+
+	public void cleanObject(Agent agent)
+	{
+		agent.setChannel(null);
+		agent.setChannelId(null);
+		agent.setUser(null);
+		AgentMap.getAgentMap().removeAgent(agent.name);
+		agent = null;// Making it null for garbage collection.
+		LOG.info("Removin agent after hungup");
+	}
+
+	@SuppressWarnings("deprecation")
+	public void callToAdmin(final String destination, final Agent agent)
+	{
+		try
+		{
+			OriginateAction origin = new OriginateAction();
+			origin = new OriginateAction();
+			String channel = "SIP/" + agent.getName() + "@" + ManagerServer.getOutboundproxy();
+			origin.setChannel(channel);// Need to set the out bound IP
+			origin.setContext("default");
+			origin.setExten(destination);
+			origin.setCallerId(agent.getName());
+			origin.setPriority(new Integer(1));
+			origin.setTimeout(new Integer(30000));
+			ManagerServer.getManagerConnection().sendAction(origin);
+			LOG.info("Sending the call to admin action");
+		}
+		catch (IllegalArgumentException e)
+		{
+			LOG.error("Illegal argument exception", e);
+		}
+		catch (IllegalStateException e)
+		{
+			LOG.error("Illegal State exception ", e);
+		}
+		catch (IOException e)
+		{
+			LOG.error("IO Exception", e);
+		}
+		catch (TimeoutException e)
+		{
+			LOG.error("Time out Exception", e);
+		}
 	}
 }

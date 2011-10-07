@@ -30,7 +30,7 @@ public class AsteriskChannelEvents extends IManager implements AsteriskServerLis
 	@Override
 	public void onNewAsteriskChannel(final AsteriskChannel channel)
 	{
-		Logger.info("Asterisk Channel received: " + channel);
+		LOG.info("Asterisk Channel received: " + channel);
 		final String channelId = channel.getId();
 		final Agent userAgent = getUserAgentForTheChannel(channelId);
 		if (userAgent != null)
@@ -43,11 +43,11 @@ public class AsteriskChannelEvents extends IManager implements AsteriskServerLis
 			if (null != localAdmin)
 			{
 				localAdmin.onNewAsteriskChannel(channel);
-				Logger.info("In Admin new asterisk channel");
+				LOG.info("In Admin new asterisk channel");
 			}
 			else
 			{
-				Logger.info("Asterisk channel Unidentified:" + channel);
+				LOG.info("Asterisk channel Unidentified:" + channel);
 			}
 		}
 	}
@@ -55,19 +55,19 @@ public class AsteriskChannelEvents extends IManager implements AsteriskServerLis
 	@Override
 	public void onNewMeetMeUser(MeetMeUser user)
 	{
-		Logger.info("Unsupported yet");
+		LOG.info("Unsupported yet");
 	}
 
 	@Override
 	public void onNewAgent(AsteriskAgentImpl agent)
 	{
-		Logger.info("Unsupported yet");
+		LOG.info("Unsupported yet");
 	}
 
 	@Override
 	public void onNewQueueEntry(AsteriskQueueEntry entry)
 	{
-		Logger.info("Unsupported yet");
+		LOG.info("Unsupported yet");
 	}
 
 	/**
@@ -81,6 +81,7 @@ public class AsteriskChannelEvents extends IManager implements AsteriskServerLis
 
 	public Agent getUserAgentForTheChannel(final String id)
 	{
+		LOG.info("Checking user agent for the asterisk channel id received");
 		if (null != AgentMap.getAgentMap().getAgentById(id))
 		{
 			return AgentMap.getAgentMap().getAgentById(id);
