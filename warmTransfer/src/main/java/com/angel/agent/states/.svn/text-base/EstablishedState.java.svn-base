@@ -27,7 +27,7 @@ public class EstablishedState extends UserState
 	{
 		LOG.info("Received onPropertyChange event " + event.getSource().toString());
 		final AsteriskChannel channel = (AsteriskChannel) event.getSource();
-		if (channel.getState() == ChannelState.HUNGUP)
+		if (channel.getState().equals(ChannelState.HUNGUP))
 		{
 			if (userParked == true)
 			{
@@ -39,25 +39,23 @@ public class EstablishedState extends UserState
 			}
 		}
 	}
-	
 
 	private void processHanupAgent(AsteriskChannel channel, Agent agent)
 	{
-		if (channel.getState() == ChannelState.HUNGUP)
+		if (channel.getState().equals(ChannelState.HUNGUP))
 		{
 			LOG.info("The agents state is set as hungup");
 			agent.setChannel(null);
 			agent.setChannelId(null); // It's required to make it null ohterwise
 										// the channel id's can be reused by
 										// user.
-			final ParkedCallState parkedCallState = new ParkedCallState();
-			agent.setState(parkedCallState);
-			// parkedCall.callToAdmin();
+			agent.setState(new HangupState());
 		}
 	}
 
 	public void processParkedUser(boolean check)
 	{
 		userParked = check;
+		LOG.info("User parked is ", check);
 	}
 }

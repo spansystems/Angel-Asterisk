@@ -6,6 +6,7 @@ package com.angel.events;
 
 import com.angel.agent.Agent;
 import com.angel.agent.states.HangupState;
+import com.angel.agent.states.TalkingToSuperVisorState;
 import com.angel.rest.InputJson;
 import com.angel.utility.Actions;
 import com.angel.utility.AgentMap;
@@ -28,7 +29,7 @@ public class HangUpEvent extends IEvents
 		{
 			if (null != agent)
 			{
-				if (agent.getState().toString().contains("TalkingToSuperVisorState") && null != agent.getChannel())
+				if (agent.getState() instanceof TalkingToSuperVisorState && null != agent.getChannel())
 				{
 					Actions.getActionObject().hangupOtherEnd(agent);
 					agent.setState(new HangupState());

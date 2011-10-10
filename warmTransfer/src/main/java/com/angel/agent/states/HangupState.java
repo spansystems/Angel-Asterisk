@@ -15,13 +15,13 @@ public class HangupState extends UserState
 	public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
 			IOException, TimeoutException
 	{
-		LOG.info("Received onPropertyChange event in Hangup state " + event.getSource().toString());
+		LOG.info("Received onPropertyChange event in Hangup state ", event.getSource().toString());
 		AsteriskChannel channel = (AsteriskChannel) event.getSource();
-		if(channel.getState().equals(ChannelState.HUNGUP)){
+		if (channel.getState().equals(ChannelState.HUNGUP))
+		{
 			agent.setChannelId(null);// Mandatory to set to null
 			agent.setChannel(null);
 			agent.setAdmin(null);
 		}
-		
 	}
 }

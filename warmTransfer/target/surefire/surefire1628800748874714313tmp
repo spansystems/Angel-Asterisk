@@ -1,0 +1,5 @@
+#surefire
+#Mon Oct 10 19:22:02 IST 2011
+user.dir=D\:\\Workspaces\\AngelWorkspace\\warmTransfer
+localRepository=D\:\\MAVEN_REPO\\.m2\\repository
+basedir=D\:\\Workspaces\\AngelWorkspace\\warmTransfer

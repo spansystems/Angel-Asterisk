@@ -30,7 +30,6 @@ public class InitialState extends UserState
 
 	private void processAgentChannel(AsteriskChannel channel, Agent agent)
 	{
-		// TOdo : Handle all the state change events
 		LOG.info("Received agent on property change event");
 		agent.setChannel(channel);
 		if (channel.getState() == ChannelState.UP)

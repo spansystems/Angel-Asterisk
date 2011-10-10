@@ -5,6 +5,7 @@
 package com.angel.events;
 
 import com.angel.agent.Agent;
+import com.angel.agent.states.EstablishedState;
 import com.angel.rest.InputJson;
 import com.angel.utility.Actions;
 
@@ -24,7 +25,7 @@ public class ParkEvent extends IEvents
 	{
 		try
 		{
-			if (agent.getState().toString().contains("EstablishedState") && agent.getChannel().getState() == ChannelState.UP)
+			if (agent.getState() instanceof EstablishedState && agent.getChannel().getState() == ChannelState.UP)
 			{
 				Actions.getActionObject().parkCall(agent);
 				LOG.info("Parked the user");

@@ -4,7 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 
 import org.asteriskjava.live.AsteriskChannel;
-import org.asteriskjava.live.ChannelState;
 import org.asteriskjava.manager.TimeoutException;
 import org.asteriskjava.manager.action.RedirectAction;
 
@@ -21,26 +20,20 @@ public class JoinConferenceState extends UserState
 			TimeoutException
 	{
 		LOG.info("Event class received in JoinConference for " + event.getSource().getClass().toString());
-		if (event.getSource().getClass().equals(agent.getChannel().getClass()))
+		AsteriskChannel channel = (AsteriskChannel) event.getSource();
+		ChannelOwner channelName = agent.getChannelOwner(channel);
+		LOG.info("channel Name received is" + channelName);
+		LOG.info("channel state for agent" + channel.getState().toString());
+		if (channelName.equals(ChannelOwner.USER))
 		{
-			AsteriskChannel channel = (AsteriskChannel) event.getSource();
-			ChannelOwner channelName = agent.getChannelOwner(channel);
-			LOG.info("channel Name received is" + channelName);
-			LOG.info("channel state for agent" + channel.getState().toString());
-			if (channelName.equals(ChannelOwner.USER))
-			{
-				processPeerChannel(agent, channel);
-			}
-			else
-				if (channelName.equals(ChannelOwner.AGENT))
-				{
-					processAgentChannel(channel, agent);
-				}
-				else
-				{
-					LOG.info("Unknown channel " + channel);
-				}
+			LOG.info("User channel received in Join conferene state", channel.getCallerId());
 		}
+		else
+			if (channelName.equals(ChannelOwner.AGENT))
+			{
+				LOG.info("Agent channel received in Join conference state", channel.getCallerId());
+			}
+
 	}
 
 	@Override
@@ -78,27 +71,11 @@ public class JoinConferenceState extends UserState
 		{
 			e.printStackTrace();
 		}
-
 	}
 
-	private void processPeerChannel(Agent agent, AsteriskChannel channel)
+	public void processUnparkEvent(Agent agent)
 	{
-		LOG.info("Received user channel event " + channel.getState().toString());
-		agent.getUser().setChannel(channel);
-	}
-
-	private void processAgentChannel(AsteriskChannel channel, Agent agent)
-	{
-		LOG.info("Received agent channel event " + channel.getState().toString());
-		agent.setChannel(channel);
-		if (channel.getState() == ChannelState.UP)
-		{
-			redirectToConference(agent);
-		}
-		else
-			if (channel.getState() == ChannelState.HUNGUP)
-			{
-				LOG.error("Agent channel hungup while putting him in the conference ");
-			}
+		redirectToConference(agent);
+		LOG.info("Redirecting user and agent to conference");
 	}
 }

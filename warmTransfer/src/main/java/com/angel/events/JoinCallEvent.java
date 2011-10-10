@@ -5,6 +5,7 @@
 package com.angel.events;
 
 import com.angel.agent.Agent;
+import com.angel.agent.states.TalkingToSuperVisorState;
 import com.angel.rest.InputJson;
 import org.asteriskjava.live.ChannelState;
 
@@ -22,8 +23,7 @@ public class JoinCallEvent extends IEvents
 	{
 		try
 		{
-			if (agent.getState().toString().contains("TalkingToSuperVisorState")
-					&& agent.getAdmin().getChannel().getState() == ChannelState.UP)
+			if (agent.getState() instanceof TalkingToSuperVisorState && agent.getAdmin().getChannel().getState() == ChannelState.UP)
 			{
 				agent.getState().redirectToConference(agent);
 				LOG.info("Redirecting the admin to conference");

@@ -6,6 +6,7 @@ package com.angel.events;
 
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
+import com.angel.agent.states.HangupState;
 import com.angel.rest.InputJson;
 import com.angel.utility.Actions;
 import com.angel.utility.AdminMap;
@@ -22,23 +23,33 @@ public class BridgeEvent extends IEvents
 	@Override
 	public void run()
 	{
-		if (agent.getState().toString().contains("ParkedCallState") && agent.getChannel() == null)
+		try
 		{
-			final String adminName = json.getData().getDestinationAgent();
-			if (!AdminMap.getAdminMap().checkAdminExist(adminName))
+			if (agent.getState() instanceof HangupState && agent.getChannel() == null)
 			{
-				AdminMap.getAdminMap().setAdmin(adminName, new Admin(adminName));
-				Actions.getActionObject().callToAdmin(json.getData().getDestinationAgent(), agent);
+				final String adminName = json.getData().getDestinationAgent();
+				if (!AdminMap.getAdminMap().checkAdminExist(adminName))
+				{
+					Admin admin = new Admin(adminName);
+					AdminMap.getAdminMap().setAdmin(adminName, admin);
+					agent.setAdmin(admin);
+					admin.setAgent(agent);
+					Actions.getActionObject().callToAdmin(json.getData().getDestinationAgent(), agent);
+				}
+				else
+				{
+					LOG.warn("Admin already exists and in call", adminName);
+				}
+
 			}
 			else
 			{
-				LOG.warn("Admin already exists and in call", adminName);
+				LOG.error("Not able to call to Admin");
 			}
-
 		}
-		else
+		catch (Exception e)
 		{
-			LOG.error("Not able to call to Admin");
+			LOG.error("Exception excuting the bridge call event", e);
 		}
 	}
 }

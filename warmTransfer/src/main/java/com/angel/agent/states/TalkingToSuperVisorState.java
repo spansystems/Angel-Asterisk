@@ -8,10 +8,11 @@ import org.asteriskjava.live.ChannelState;
 import org.asteriskjava.live.ManagerCommunicationException;
 import org.asteriskjava.live.NoSuchChannelException;
 import org.asteriskjava.manager.TimeoutException;
+import org.asteriskjava.manager.action.RedirectAction;
 
 import com.angel.agent.Agent;
 import com.angel.base.UserState;
-import com.angel.utility.Actions;
+import com.angel.manager.ManagerServer;
 
 public class TalkingToSuperVisorState extends UserState
 {
@@ -32,9 +33,9 @@ public class TalkingToSuperVisorState extends UserState
 
 		AsteriskChannel channel = (AsteriskChannel) event.getSource();
 		LOG.info("Asterisk channel in Talking to su state " + channel);
-		if (channel.getCallerId().toString().contains(agent.getName()) && channel.getState() == ChannelState.HUNGUP)
+		if (channel.getCallerId().toString().contains(agent.getName()) && channel.getState().equals(ChannelState.HUNGUP))
 		{
-			processAgentChannel(agent, channel);
+			LOG.warn("Agent channel is down");
 		}
 
 	}
@@ -49,45 +50,55 @@ public class TalkingToSuperVisorState extends UserState
 		try
 		{
 			LOG.info("Redirect the SuperVisor channel to conference");
-			agent.getAdmin().getChannel().redirect("meet", "600", 1);
+			/*
+			 * Redirecting the admin/agent2 to conference
+			 */
+
+			RedirectAction action = new RedirectAction();
+			action.setChannel(agent.getAdmin().getChannel().getName());
+			action.setExten("600");
+			action.setPriority(1);
+			action.setContext("meet");
+			/*
+			 * Redirecting the agent to pick up user channel
+			 */
+			action.setExtraChannel(agent.getChannel().getName());
+			LOG.info("User channel is :", agent.getChannel().getName());
+			action.setExtraContext("pickuser");
+			action.setExtraExten(agent.getUser().getParkingLotNo());
+			action.setExtraPriority(1);
+
+			ManagerServer.getManagerConnection().sendAction(action);
+
+			// Changing the state to join conference state
+			agent.setState(new JoinConferenceState());
+			LOG.info("Changing the state to join conference state");
 		}
 		catch (IllegalArgumentException e)
 		{
-			// TODO Auto-generated catch block
+			LOG.error("Illegal argument Exception while sending redirect action ", e);
 		}
 		catch (IllegalStateException e)
 		{
-			// TODO Auto-generated catch block
+			LOG.error("Illegal state Exception while sending redirect action ", e);
 		}
 		catch (ManagerCommunicationException e)
 		{
-			// TODO Auto-generated catch block
+			LOG.error("Manager communication Exception while sending redirect action ", e);
 		}
 		catch (NoSuchChannelException e)
 		{
-			// TODO Auto-generated catch block
+			LOG.error("No such channel Exception while sending redirect action ", e);
 		}
-	}
-
-	private void processAgentChannel(Agent agent, AsteriskChannel channel)
-	{
-		if (channel.getState() == ChannelState.HUNGUP)
+		catch (IOException e)
 		{
-			LOG.info("The agent's channel is hungup after putting admin's channel in confernence");
-			agent.setChannel(null);
-			agent.setChannelId(null);// Required to make it null
-			try
-			{
-				Actions.getActionObject().unParkUser(agent);
-				agent.setState(new JoinConferenceState());
-				LOG.info("Changing the state to join conference state");
-			}
-
-			catch (Exception e)
-			{
-				LOG.error("Not able to unpark the user in talking to supervisor state",e);
-			}
-
+			LOG.error("IO Exception while sending redirect action ", e);
+			e.printStackTrace();
+		}
+		catch (TimeoutException e)
+		{
+			LOG.error("Time out Exception while sending redirect action ", e);
+			e.printStackTrace();
 		}
 	}
 }

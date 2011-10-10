@@ -18,32 +18,22 @@ import com.angel.utility.AdminMap;
  */
 public class EstablishedState extends UserState
 {
-
-	boolean userParked;
-
 	@Override
 	public void onPropertyChangeEvent(PropertyChangeEvent event, Admin admin) throws IllegalArgumentException, IllegalStateException,
 			IOException, TimeoutException
 	{
-		// TODO Auto-generated method stub
 		LOG.info("Received onPropertyChange event in admin's established class" + getClass().toString());
-		if (admin.getChannel() == (AsteriskChannel) event.getSource())
+
+		LOG.info("Received a property change for admin channel");
+		final AsteriskChannel channel = (AsteriskChannel) event.getSource();
+		if (channel.getState().equals(ChannelState.HUNGUP))
 		{
-			LOG.info("Received a property change for admin channel");
-			final AsteriskChannel channel = (AsteriskChannel) event.getSource();
-			if (channel.getState() == ChannelState.HUNGUP)
-			{
-				LOG.info("The admin state is set as hungup");
-				admin.setChannelId(null);
-				admin.setChannel(null);
-				AdminMap.getAdminMap().removeAdmin(admin.getName());
-				admin = null;// Make it null for garbage collection
-				LOG.info("Removed admin object from Admin Map");
-			}
-			else
-			{
-				LOG.info("Not implemented yet");
-			}
+			LOG.info("The admin state is set as hungup");
+			admin.setChannelId(null);
+			admin.setChannel(null);
+			AdminMap.getAdminMap().removeAdmin(admin.getName());
+			admin = null;// Make it null for garbage collection
+			LOG.info("Removed admin object from Admin Map");
 		}
 	}
 }

@@ -9,8 +9,14 @@ import org.asteriskjava.manager.event.BridgeEvent;
 import org.asteriskjava.manager.event.DialEvent;
 import org.asteriskjava.manager.event.HangupEvent;
 import org.asteriskjava.manager.event.ManagerEvent;
+import org.asteriskjava.manager.event.MeetMeJoinEvent;
+import org.asteriskjava.manager.event.MeetMeLeaveEvent;
+import org.asteriskjava.manager.event.NewCallerIdEvent;
 import org.asteriskjava.manager.event.NewChannelEvent;
+import org.asteriskjava.manager.event.NewStateEvent;
+import org.asteriskjava.manager.event.OriginateSuccessEvent;
 import org.asteriskjava.manager.event.ParkedCallEvent;
+import org.asteriskjava.manager.event.RegistryEvent;
 import org.asteriskjava.manager.event.UnparkedCallEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
 import com.angel.agent.User;
+import com.angel.agent.states.EstablishedState;
+import com.angel.agent.states.JoinConferenceState;
 import com.angel.utility.Actions;
 import com.angel.utility.AdminMap;
 import com.angel.utility.AgentMap;
@@ -27,6 +35,7 @@ import com.angel.utility.AgentMap;
  * 
  * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
+@SuppressWarnings("deprecation")
 public class ManagerEvents extends IManager implements ManagerEventListener
 {
 	private static final Logger LOG = LoggerFactory.getLogger(ManagerEvents.class);
@@ -47,74 +56,73 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 	@Override
 	public void onManagerEvent(final ManagerEvent event)
 	{
-		String eventType = event.getClass().toString();
 		// To do; Use switch instead of if-else ladder
 
-		if (eventType.contains("NewChannelEvent"))
+		if (event instanceof NewChannelEvent)
 		{
 			onNewChannelEvent(event);
 		}
 		else
-			if (eventType.contains("NewCallerIdEvent"))
+			if (event instanceof NewCallerIdEvent)
 			{
 				onNewCallerIdEvent(event);
 				LOG.info("Received NewCallerIdEvent event " + event);
 			}
 			else
-				if (eventType.contains("DialEvent"))
+				if (event instanceof DialEvent)
 				{
 					onDialEvent(event);
 				}
 				else
-					if (eventType.contains("BridgeEvent"))
+					if (event instanceof BridgeEvent)
 					{
 						onBridgeEvent(event);
 						LOG.info("Received Bridge Event " + event);
 					}
 					else
-						if (eventType.contains("HangupEvent"))
+						if (event instanceof HangupEvent)
 						{
 							onHangupEvent(event);
 							LOG.info("Received Hangup Event " + event);
 						}
 						else
-							if (eventType.contains("MeetMeJoinEvent"))
+							if (event instanceof MeetMeJoinEvent)
 							{
 								onMeetMeJoinEvent(event);
 								LOG.info("Received MeetMeJoin Event " + event);
 							}
 							else
-								if (eventType.contains("MeetMeLeaveEvent"))
+								if (event instanceof MeetMeLeaveEvent)
 								{
 									onMeetMeLeaveEvent(event);
 									LOG.info("Received MeetMeLeave Event " + event);
 								}
 								else
-									if (eventType.contains("NewStateEvent"))
+									if (event instanceof NewStateEvent)
 									{
 										onNewStateEvent(event);
 										LOG.info("Received NewState Event " + event);
 									}
 									else
-										if (eventType.contains("ParkedCallEvent"))
+										if (event instanceof ParkedCallEvent)
 										{
 											onParkedCallEvent(event);
 											LOG.info("Received ParkedCall Event " + event);
 										}
 										else
-											if (eventType.contains("RegistryEvent"))
+											if (event instanceof RegistryEvent)
 											{
 												onRegistryEvent(event);
 												LOG.info("Received Registry Event " + event);
 											}
 											else
-												if (eventType.contains("OriginateSuccessEvent"))
+												if (event instanceof OriginateSuccessEvent)
 												{
 													onOriginateSuccessEvent(event);
 													LOG.info("Received OriginateSuccess Event " + event);
 												}
 												else
-													if (eventType.contains("UnparkedCallEvent"))
+													if (event instanceof UnparkedCallEvent)
 													{
 														onUnparkedCallEvent(event);
 														System.out.println("Received NewCallerIdEvent event " + event);
@@ -124,14 +132,13 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 														LOG.info("The event received is not handled at this point and is:" + event);
 													}
 	}
-
+	
 	/*
 	 * Receives the events from ManagerEvent method after getting filtered for
 	 * new channel event It Initialized the channel id's for user,agent and
 	 * superuser. These id's are used on New Asteisk channel event to recognize
 	 * user admin or superuser.
 	 */
-	@SuppressWarnings("deprecation")
 	private void onUnparkedCallEvent(final ManagerEvent event)
 	{
 		LOG.info("Unparked call event received");
@@ -140,10 +147,16 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		{
 			final Agent unParkedUsersAgent = AgentMap.getAgentMap().getAgentByUser(unParkEvent.getCallerId());
 			unParkedUsersAgent.getUser().setChannelName(unParkEvent.getChannel());
-			if (unParkedUsersAgent.getState().toString().contains("EstablishedState"))
+			if (unParkedUsersAgent.getState() instanceof EstablishedState)
 			{
 				((com.angel.agent.states.EstablishedState) unParkedUsersAgent.getState()).processParkedUser(false);
 			}
+			else
+				if (unParkedUsersAgent.getState() instanceof JoinConferenceState)
+				{
+					LOG.info("User unpark event received in talking to supervisor state");
+					((com.angel.agent.states.JoinConferenceState) unParkedUsersAgent.getState()).processUnparkEvent(unParkedUsersAgent);
+				}
 		}
 		else
 		{
@@ -152,7 +165,6 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void onNewChannelEvent(final ManagerEvent event)
 	{
 		LOG.info("Manager new channel event received: " + event);
@@ -175,7 +187,6 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 	/*
 	 * Handles dial event
 	 */
-	@SuppressWarnings("deprecation")
 	private void onDialEvent(final ManagerEvent event)
 	{
 		LOG.info("Dial channel event received: " + event);
@@ -244,7 +255,6 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 
 	}
 
-	@SuppressWarnings("deprecation")
 	private void onHangupEvent(final ManagerEvent event)
 	{
 		LOG.info("Manager Hangup channel event received: " + event);
@@ -285,7 +295,6 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 	{
 		LOG.info("Parked  channel event received: " + event);
 		final ParkedCallEvent channel = (ParkedCallEvent) event;
-		@SuppressWarnings("deprecation")
 		final String userCallerId = channel.getCallerId();
 		final Agent agentConnectedTo = AgentMap.getAgentMap().getAgentByUser(userCallerId);
 		if (null != agentConnectedTo)
@@ -310,7 +319,6 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		LOG.info("New caller Id event received " + event);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setUserInfo(final NewChannelEvent channel)
 	{
 		final String extension = channel.getExten();
@@ -331,11 +339,4 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		}
 	}
 
-	public static void main(String[] args)
-	{
-		final String[] dialedStringArray = "prashant@pratik".split("@");
-		final String dialedString = dialedStringArray[0];
-		System.out.println(dialedString);
-
-	}
 }

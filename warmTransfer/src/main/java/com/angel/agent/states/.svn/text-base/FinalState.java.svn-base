@@ -15,17 +15,22 @@ import com.angel.agent.Agent;
 import com.angel.base.UserState;
 import com.angel.utility.Actions;
 
-public class FinalState extends UserState {
+public class FinalState extends UserState
+{
 
-    @Override
-    public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
-          IOException, TimeoutException {
-        AsteriskChannel channel = (AsteriskChannel) event.getSource();
-        if (channel.getState() == ChannelState.HUNGUP) {
-        	Actions.getActionObject().cleanObject(agent);
-        } else {
-            LOG.info("Unhandled yet");
-        }
+	@Override
+	public void onPropertyChangeEvent(PropertyChangeEvent event, Agent agent) throws IllegalArgumentException, IllegalStateException,
+			IOException, TimeoutException
+	{
+		AsteriskChannel channel = (AsteriskChannel) event.getSource();
+		if (channel.getState().equals(ChannelState.HUNGUP))
+		{
+			Actions.getActionObject().cleanObject(agent);
+		}
+		else
+		{
+			LOG.info("Unhandled channel in Final state", channel);
+		}
 
-    }
+	}
 }

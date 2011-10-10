@@ -6,6 +6,7 @@ package com.angel.events;
 
 import com.angel.agent.Agent;
 import com.angel.agent.states.EstablishedState;
+import com.angel.agent.states.HangupState;
 import com.angel.rest.InputJson;
 import com.angel.utility.Actions;
 
@@ -21,7 +22,7 @@ public class UnParkEvent extends IEvents
 	@Override
 	public void run()
 	{
-		if (agent.getState().toString().contains("HangupState") && null == agent.getChannel())
+		if (agent.getState() instanceof HangupState && null == agent.getChannel())
 		{
 			try
 			{

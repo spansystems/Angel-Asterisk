@@ -20,7 +20,7 @@ public class RestResource extends Application {
     public RestResource() {
         LOG.info("Adding rest resource");
         singleton.add(new AsteriskRest());
-        LOG.info("Resouce added");
+        LOG.info("Resouce added successfully");
     }
 
     @Override

@@ -39,6 +39,7 @@ public class Actions
 			Thread.sleep(500);
 			ParkedCallsAction parkAction = new ParkedCallsAction();
 			ManagerServer.getManagerConnection().sendAction(parkAction);
+			LOG.info("Sent the park action successfully");
 
 		}
 		catch (InterruptedException e)
@@ -71,6 +72,7 @@ public class Actions
 			HangupAction hangup = new HangupAction();
 			hangup.setChannel(admin.getChannel().getName());
 			ManagerServer.getManagerConnection().sendAction(hangup);
+			LOG.info("Sent hangup action successfully");
 		}
 		catch (IOException ex)
 		{
@@ -106,6 +108,7 @@ public class Actions
 			origin.setVariable("name", agent.getName());
 			origin.setTimeout((long) 10000);
 			ManagerServer.getManagerConnection().sendAction(origin);
+			LOG.info("Sent the Un park action successfully");
 
 		}
 		catch (IOException ex)
@@ -152,7 +155,7 @@ public class Actions
 			origin.setPriority(new Integer(1));
 			origin.setTimeout(new Integer(30000));
 			ManagerServer.getManagerConnection().sendAction(origin);
-			LOG.info("Sending the call to admin action");
+			LOG.info("Sent call to admin action successfully");
 		}
 		catch (IllegalArgumentException e)
 		{

@@ -28,6 +28,12 @@ public final class Agent extends IAgent implements PropertyChangeListener
 	private String channelId;
 	private User user;
 
+	public Agent(final String name)
+	{
+		this.state = new InitialState();
+		this.name = name;
+	}
+
 	public void setUser(final User user)
 	{
 		this.user = user;
@@ -73,15 +79,6 @@ public final class Agent extends IAgent implements PropertyChangeListener
 	public void setAdmin(Admin admin)
 	{
 		this.admin = admin;
-	}
-
-	/**
-     * 
-     */
-	public Agent(final String name)
-	{
-		this.state = new InitialState();
-		this.name = name;
 	}
 
 	/**
