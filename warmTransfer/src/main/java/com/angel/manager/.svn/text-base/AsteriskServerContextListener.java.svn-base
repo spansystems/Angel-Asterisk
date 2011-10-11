@@ -17,12 +17,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Asterisk server context listener.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
 public class AsteriskServerContextListener implements ServletContextListener
 {
 
-	public static final Logger LOG = LoggerFactory.getLogger(AsteriskServerContextListener.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AsteriskServerContextListener.class);
 
 	/**
 	 * ContextDestroyed.
@@ -34,6 +33,7 @@ public class AsteriskServerContextListener implements ServletContextListener
 	public void contextDestroyed(ServletContextEvent arg0)
 	{
 		ManagerServer.getManagerConnection().logoff();
+		LOG.info("Connection with Asterisk server terminated");
 	}
 
 	/**

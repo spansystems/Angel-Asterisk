@@ -20,16 +20,13 @@ import com.angel.agent.Agent;
  */
 public class AgentMap
 {
-	private static final Logger LOGGER = Logger.getLogger(AgentMap.class);
+	private static final Logger LOG = Logger.getLogger(AgentMap.class);
 	private static AgentMap agentMap;
 	private Map<String, Agent> agentHashMap = new ConcurrentHashMap<String, Agent>();
 
-	/**
-	 * Default constructor.
-	 */
-	private AgentMap()
+	static
 	{
-
+		agentMap = new AgentMap();
 	}
 
 	/**
@@ -39,10 +36,6 @@ public class AgentMap
 	 */
 	public static AgentMap getAgentMap()
 	{
-		if (agentMap == null)
-		{
-			agentMap = new AgentMap();
-		}
 		return agentMap;
 	}
 
@@ -91,7 +84,16 @@ public class AgentMap
 	 */
 	public boolean checkAgentExist(final String agent)
 	{
-		return agentHashMap.containsKey(agent);
+
+		try
+		{
+			return agentHashMap.containsKey(agent);
+		}
+		catch (NullPointerException e)
+		{
+			LOG.warn("Map doesnt't have the key", e);
+		}
+		return false;
 	}
 
 	/**
@@ -112,16 +114,16 @@ public class AgentMap
 				Agent agent = (Agent) it.next();
 				if (agent.getUser().getChannelId().equals(id) || agent.getChannelId().equals(id))
 				{
-					LOGGER.info("Success returned from getAgent from ID");
+					LOG.info("Success returned from getAgent from ID");
 					return agent;
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			LOGGER.warn("Exception while checking agent Id or User id",e);
+			LOG.warn("Exception while checking agent Id or User id", e);
 		}
-		LOGGER.info("Not Success");
+		LOG.info("Not Success");
 		return null;
 	}
 
@@ -141,11 +143,11 @@ public class AgentMap
 			final Agent agent = (Agent) it.next();
 			if (agent.getUser().getCallerId().equals(userCallerId))
 			{
-				LOGGER.info("Success returned from getAgent from ID");
+				LOG.info("Success returned from getAgent from ID");
 				return agent;
 			}
 		}
-		LOGGER.info("Not Success");
+		LOG.info("Not Success");
 		return null;
 	}
 }

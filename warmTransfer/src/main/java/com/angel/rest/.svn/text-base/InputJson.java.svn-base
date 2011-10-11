@@ -9,7 +9,6 @@ import java.io.Serializable;
 /**
  * Input json class.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
 public class InputJson implements Serializable {
 

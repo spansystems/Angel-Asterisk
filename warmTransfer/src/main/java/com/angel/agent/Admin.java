@@ -10,19 +10,16 @@ import java.io.IOException;
 
 import org.asteriskjava.live.AsteriskChannel;
 import org.asteriskjava.manager.TimeoutException;
-import org.asteriskjava.manager.event.NewStateEvent;
 
 import com.angel.admin.states.InitialState;
 import com.angel.base.IAgent;
 import com.angel.base.UserState;
-import com.angel.manager.ManagerServer;
 
 /**
  * Admin instance of the class.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
-public final class Admin extends IAgent implements PropertyChangeListener
+public class Admin extends IAgent implements PropertyChangeListener
 {
 
 	private Agent agent;
@@ -65,10 +62,6 @@ public final class Admin extends IAgent implements PropertyChangeListener
 	{
 		this.agent = agent;
 	}
-
-	/**
-     * 
-     */
 
 	/**
 	 * 
@@ -118,25 +111,6 @@ public final class Admin extends IAgent implements PropertyChangeListener
 	public void setState(UserState state)
 	{
 		this.state = state;
-	}
-
-	/**
-	 * 
-	 * @param event
-	 * @param server
-	 */
-	public void onNewStateEvent(NewStateEvent event, ManagerServer server)
-	{
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public Admin getInstance()
-	{
-		return this;
 	}
 
 	/**

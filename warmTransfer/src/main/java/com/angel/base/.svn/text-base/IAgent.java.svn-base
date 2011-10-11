@@ -11,20 +11,38 @@ import org.slf4j.LoggerFactory;
 public abstract class IAgent
 {
 
-	public static final Logger LOG = LoggerFactory.getLogger(IAgent.class);
-	public String name;
-	public AsteriskChannel channel;
-	public UserState state;
+	protected static final Logger LOG = LoggerFactory.getLogger(IAgent.class);
+	protected String name;
+	protected AsteriskChannel channel;
+	protected UserState state;
 
-	public abstract void setState(UserState state);
+	public void setState(UserState state)
+	{
+		this.state = state;
+	}
 
-	public abstract UserState getState();
+	public UserState getState()
+	{
+		return state;
+	}
 
-	public abstract AsteriskChannel getChannel();
+	public AsteriskChannel getChannel()
+	{
+		return channel;
+	}
 
-	public abstract void setChannel(AsteriskChannel channel);
+	public void setChannel(AsteriskChannel channel)
+	{
+		this.channel = channel;
+	}
 
-	public abstract String getName();
+	public String getName()
+	{
+		return name;
+	}
 
-	public abstract void onNewAsteriskChannel(AsteriskChannel channel);
+	protected void onNewAsteriskChannel(AsteriskChannel channel)
+	{
+		LOG.info("New asterisk channel received in abstract class IAgent", channel);
+	}
 }

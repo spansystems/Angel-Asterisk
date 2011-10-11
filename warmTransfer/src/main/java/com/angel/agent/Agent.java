@@ -19,9 +19,8 @@ import com.angel.base.UserState;
 /**
  * Agent class.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
-public final class Agent extends IAgent implements PropertyChangeListener
+public class Agent extends IAgent implements PropertyChangeListener
 {
 
 	private Admin admin;

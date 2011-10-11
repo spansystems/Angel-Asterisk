@@ -25,6 +25,7 @@ public class FinalState extends UserState
 		AsteriskChannel channel = (AsteriskChannel) event.getSource();
 		if (channel.getState().equals(ChannelState.HUNGUP))
 		{
+			LOG.info("Received hangup channel in final state");
 			Actions.getActionObject().cleanObject(agent);
 		}
 		else

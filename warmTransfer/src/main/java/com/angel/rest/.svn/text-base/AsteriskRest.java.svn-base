@@ -26,11 +26,6 @@ import com.angel.events.ParkEvent;
 import com.angel.events.UnParkEvent;
 import com.angel.utility.AgentMap;
 
-/**
- * Asterisk restlet.
- * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
- */
 public class AsteriskRest implements IAsteriskRest
 {
 	private static final Logger LOG = LoggerFactory.getLogger(AsteriskRest.class);
@@ -76,7 +71,7 @@ public class AsteriskRest implements IAsteriskRest
 			if (null != agent)
 			{
 				responseString = "Request processed";
-				sendJsonResponse(responseString, Status.OK, agent.name);
+				sendJsonResponse(responseString, Status.OK, agent.getName());
 				switch (event)
 				{
 					case HANG_UP_CALL:
@@ -89,7 +84,7 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id not found(Hang up call");
 							responseString = "Destination agent id notfound(Hangup call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.getName());
 						}
 						break;
 					case PARK_CALL:
@@ -106,7 +101,7 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id notfound(Bridge call)");
 							responseString = "Destination agent id notfound(Bridge call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.getName());
 						}
 						break;
 					case JOIN_CALL:
@@ -127,12 +122,12 @@ public class AsteriskRest implements IAsteriskRest
 						{
 							LOG.warn("Destination agent id notfound(Hand Over call)");
 							responseString = "Destination agent id notfound(Hand Over call)";
-							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
+							sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.getName());
 						}
 						break;
 					default:
 						responseString = "action unidentified";
-						sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.name);
+						sendJsonResponse(responseString, Status.NOT_ACCEPTABLE, agent.getName());
 
 				}
 			}

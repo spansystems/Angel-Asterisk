@@ -10,6 +10,7 @@ import org.asteriskjava.manager.TimeoutException;
 import com.angel.agent.Admin;
 import com.angel.agent.states.TalkingToSuperVisorState;
 import com.angel.base.UserState;
+import com.angel.utility.Actions;
 
 /**
  * Initial state handler class.
@@ -26,14 +27,20 @@ public class InitialState extends UserState
 		final AsteriskChannel channel = (AsteriskChannel) event.getSource();
 		admin.setChannel(channel);
 
-		if (channel.getState() == ChannelState.UP)
+		if (channel.getState().equals(ChannelState.UP))
 		{
 			admin.getAgent().setState(new TalkingToSuperVisorState());
 			admin.setState(new EstablishedState());
 		}
 		else
-		{
-			LOG.warn("Unknown channel in Admin's" +admin.name+" initial state");
-		}
+			if (channel.getState().equals(ChannelState.HUNGUP))
+			{
+				LOG.info("Received hungup channel for admin " + admin.getName() + " in initial state");
+				Actions.getActionObject().cleanObject(admin);
+			}
+			else
+			{
+				LOG.warn("Unknown channel in Admin's" + admin.getName() + " initial state");
+			}
 	}
 }

@@ -35,7 +35,7 @@ public class TalkingToSuperVisorState extends UserState
 		LOG.info("Asterisk channel in Talking to su state " + channel);
 		if (channel.getCallerId().toString().contains(agent.getName()) && channel.getState().equals(ChannelState.HUNGUP))
 		{
-			LOG.warn("Agent channel is down");
+			LOG.info("Agent channel is down");
 		}
 
 	}

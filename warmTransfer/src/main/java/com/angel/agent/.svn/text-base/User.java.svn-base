@@ -9,7 +9,6 @@ import org.asteriskjava.live.AsteriskChannel;
 /**
  * General class for the user information
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
 public class User
 {

@@ -132,7 +132,7 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 														LOG.info("The event received is not handled at this point and is:" + event);
 													}
 	}
-	
+
 	/*
 	 * Receives the events from ManagerEvent method after getting filtered for
 	 * new channel event It Initialized the channel id's for user,agent and
@@ -227,30 +227,37 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		LOG.info("Bridge event received: " + event);
 		final BridgeEvent channel = (BridgeEvent) event;
 		final String dialedString = channel.getCallerId2();
-		if (AgentMap.getAgentMap().checkAgentExist(dialedString))
+		try
 		{
-			final Agent agentReceived = AgentMap.getAgentMap().getAgent(dialedString);
-			agentReceived.setChannelId(channel.getUniqueId2());
-			LOG.info("Received an agent bride event " + agentReceived);
-		}
-		else
-		{
-			if (AgentMap.getAgentMap().checkAgentExist(channel.getCallerId1()))
+			if (AgentMap.getAgentMap().checkAgentExist(dialedString))
 			{
-				if (AdminMap.getAdminMap().checkAdminExist(dialedString))
-				{
-					LOG.info("Received admin---->", dialedString, channel);
-					final Admin localadmin = AdminMap.getAdminMap().getAdmin(dialedString);
-					localadmin.setChannelId(channel.getUniqueId2());
-				}
-				LOG.info("Setting Agent channel ID for agent--->", channel.getCallerId1());
-				AgentMap.getAgentMap().getAgent(channel.getCallerId1()).setChannelId(channel.getUniqueId1());
-
+				final Agent agentReceived = AgentMap.getAgentMap().getAgent(dialedString);
+				agentReceived.setChannelId(channel.getUniqueId2());
+				LOG.info("Received an agent bride event " + agentReceived);
 			}
 			else
 			{
-				LOG.info("UnIdentified Bridge event:" + event);
+				if (AgentMap.getAgentMap().checkAgentExist(channel.getCallerId1()))
+				{
+					if (AdminMap.getAdminMap().checkAdminExist(dialedString))
+					{
+						LOG.info("Received admin---->", dialedString, channel);
+						final Admin localadmin = AdminMap.getAdminMap().getAdmin(dialedString);
+						localadmin.setChannelId(channel.getUniqueId2());
+					}
+					LOG.info("Setting Agent channel ID for agent--->", channel.getCallerId1());
+					AgentMap.getAgentMap().getAgent(channel.getCallerId1()).setChannelId(channel.getUniqueId1());
+
+				}
+				else
+				{
+					LOG.info("UnIdentified Bridge event:" + event);
+				}
 			}
+		}
+		catch (Exception e)
+		{
+			LOG.error("Caught exception in Bridge event handler", e);
 		}
 
 	}
@@ -262,9 +269,15 @@ public class ManagerEvents extends IManager implements ManagerEventListener
 		if (null != AgentMap.getAgentMap().getAgentByUser(channel.getCallerId()))
 		{
 			Agent agentToHangup = AgentMap.getAgentMap().getAgentByUser(channel.getCallerId());
-			LOG.info("Removing agent from agent map", agentToHangup.name);
+			LOG.info("Removing agent from agent map", agentToHangup.getName());
 			Actions.getActionObject().cleanObject(agentToHangup);
 
+		}
+		if (null != AdminMap.getAdminMap().getAdminById(channel.getCallerId()))
+		{
+			Admin adminHungup = AdminMap.getAdminMap().getAdminById(channel.getCallerId());
+			LOG.info("Removing agent from agent map", adminHungup.getName());
+			Actions.getActionObject().cleanObject(adminHungup);
 		}
 
 	}

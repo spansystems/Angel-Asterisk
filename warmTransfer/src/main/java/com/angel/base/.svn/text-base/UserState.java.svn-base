@@ -13,7 +13,7 @@ import com.angel.agent.Agent;
 public abstract class UserState
 {
 
-	public static final Logger LOG = LoggerFactory.getLogger(UserState.class);
+	protected static final Logger LOG = LoggerFactory.getLogger(UserState.class);
 
 	public void onPropertyChangeEvent(final PropertyChangeEvent event, final Agent agent) throws IllegalArgumentException,
 			IllegalStateException, IOException, TimeoutException

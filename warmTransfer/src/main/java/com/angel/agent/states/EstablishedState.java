@@ -14,7 +14,6 @@ import com.angel.utility.Actions;
 /**
  * User state handler.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
 public class EstablishedState extends UserState
 {

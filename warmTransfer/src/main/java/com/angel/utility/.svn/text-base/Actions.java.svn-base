@@ -7,11 +7,14 @@ import org.asteriskjava.manager.action.HangupAction;
 import org.asteriskjava.manager.action.OriginateAction;
 import org.asteriskjava.manager.action.ParkAction;
 import org.asteriskjava.manager.action.ParkedCallsAction;
+import org.asteriskjava.manager.action.RedirectAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.angel.agent.Admin;
 import com.angel.agent.Agent;
+import com.angel.agent.states.FinalState;
+import com.angel.base.IAgent;
 import com.angel.manager.ManagerServer;
 
 public class Actions
@@ -28,7 +31,7 @@ public class Actions
 		return actions;
 	}
 
-	public void parkCall(Agent agent)
+	public void parkCall(final Agent agent)
 	{
 		try
 		{
@@ -64,7 +67,7 @@ public class Actions
 		}
 	}
 
-	public void hangupOtherEnd(Agent agent)
+	public void hangupOtherEnd(final Agent agent)
 	{
 		try
 		{
@@ -92,7 +95,7 @@ public class Actions
 		}
 	}
 
-	public void unParkUser(Agent agent)
+	public void unParkUser(final Agent agent)
 	{
 		try
 		{
@@ -130,14 +133,22 @@ public class Actions
 
 	}
 
-	public void cleanObject(Agent agent)
+	public void cleanObject(IAgent agentAdmin)
 	{
-		agent.setChannel(null);
-		agent.setChannelId(null);
-		agent.setUser(null);
-		AgentMap.getAgentMap().removeAgent(agent.name);
-		agent = null;// Making it null for garbage collection.
-		LOG.info("Removin agent after hungup");
+		if (agentAdmin instanceof Agent)
+		{
+			AgentMap.getAgentMap().removeAgent(agentAdmin.getName());
+			LOG.info("Removing agent " + agentAdmin.getName() + " after hungup");
+		}
+		else
+			if (agentAdmin instanceof Admin)
+			{
+				AdminMap.getAdminMap().removeAdmin(agentAdmin.getName());
+				LOG.info("Removing admin " + agentAdmin.getName() + " after hungup");
+			}
+
+		agentAdmin = null;// Making it null for garbage collection.
+
 	}
 
 	@SuppressWarnings("deprecation")
@@ -145,15 +156,14 @@ public class Actions
 	{
 		try
 		{
-			OriginateAction origin = new OriginateAction();
-			origin = new OriginateAction();
+			final OriginateAction origin = new OriginateAction();			
 			String channel = "SIP/" + agent.getName() + "@" + ManagerServer.getOutboundproxy();
 			origin.setChannel(channel);// Need to set the out bound IP
 			origin.setContext("default");
 			origin.setExten(destination);
 			origin.setCallerId(agent.getName());
-			origin.setPriority(new Integer(1));
-			origin.setTimeout(new Integer(30000));
+			origin.setPriority(Integer.valueOf(1));
+			origin.setTimeout(Integer.valueOf(30000));
 			ManagerServer.getManagerConnection().sendAction(origin);
 			LOG.info("Sent call to admin action successfully");
 		}
@@ -172,6 +182,41 @@ public class Actions
 		catch (TimeoutException e)
 		{
 			LOG.error("Time out Exception", e);
+		}
+	}
+
+	public void handOverCallToAdmin(final Agent agent, final String destinationAgent)
+	{
+		LOG.info("Redirecting the parked channel to conference");
+		try
+		{
+			RedirectAction action = new RedirectAction();
+			action.setChannel(agent.getAdmin().getChannel().getName());
+			action.setExten(agent.getUser().getParkingLotNo());
+			action.setPriority(1);
+			action.setContext("pickuser");
+			ManagerServer.getManagerConnection().sendAction(action);
+			agent.setState(new FinalState());
+		}
+		catch (IllegalArgumentException e)
+		{
+			LOG.error("Illegal argument exception", e);
+			e.printStackTrace();
+		}
+		catch (IllegalStateException e)
+		{
+			LOG.error("Illegal State exception ", e);
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			LOG.error("IO Exception", e);
+			e.printStackTrace();
+		}
+		catch (TimeoutException e)
+		{
+			LOG.error("Time out Exception", e);
+			e.printStackTrace();
 		}
 	}
 }

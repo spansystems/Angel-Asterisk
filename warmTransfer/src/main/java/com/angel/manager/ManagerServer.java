@@ -19,7 +19,6 @@ import org.asteriskjava.manager.action.StatusAction;
 /**
  * Manager server class.
  * 
- * @author @author <a href="mailto:ravindra_d@spanservices.com"> Ravindra D </a>
  */
 public final class ManagerServer extends IManager
 {
@@ -27,9 +26,9 @@ public final class ManagerServer extends IManager
 	private static AsteriskServer asteriskServer;
 	private static ManagerConnection managerConnection;
 	private static String outboundproxy;
-	private String asteriskIP;
-	private String loginName;
-	private String loginPwd;
+	private static String asteriskIP;
+	private static String loginName;
+	private static String loginPwd;
 	private ManagerEvents manager;
 	private AsteriskChannelEvents asteriskChannelEventHandler;
 
@@ -37,11 +36,15 @@ public final class ManagerServer extends IManager
 	 * Constructor is used to initate the connection with asterisk server with
 	 * ip, username and passwd. Agent and Admin are instantiazed at this point.
 	 */
-	public ManagerServer()
+	static
 	{
 		loadConfig();
 		asteriskServer = new DefaultAsteriskServer(asteriskIP, loginName, loginPwd);
 		managerConnection = asteriskServer.getManagerConnection();
+	}
+
+	public ManagerServer()
+	{
 		manager = new ManagerEvents();
 		asteriskChannelEventHandler = new AsteriskChannelEvents();
 	}
@@ -81,7 +84,7 @@ public final class ManagerServer extends IManager
 	/*
 	 * Reads the property file to login to Asterisk server
 	 */
-	private void loadConfig()
+	private static void loadConfig()
 	{
 		try
 		{
