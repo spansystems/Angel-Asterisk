@@ -29,6 +29,7 @@ public final class ManagerServer extends IManager
 	private static String asteriskIP;
 	private static String loginName;
 	private static String loginPwd;
+	private static int asteriskPort;
 	private ManagerEvents manager;
 	private AsteriskChannelEvents asteriskChannelEventHandler;
 
@@ -39,7 +40,7 @@ public final class ManagerServer extends IManager
 	static
 	{
 		loadConfig();
-		asteriskServer = new DefaultAsteriskServer(asteriskIP, loginName, loginPwd);
+		asteriskServer = new DefaultAsteriskServer(asteriskIP, asteriskPort, loginName, loginPwd);
 		managerConnection = asteriskServer.getManagerConnection();
 	}
 
@@ -89,10 +90,11 @@ public final class ManagerServer extends IManager
 		try
 		{
 			final Properties props = ManagerServer.loadProperties(ManagerServer.class, "/resources/conf.properties");
-			asteriskIP = props.getProperty("asterisk_ip");
-			loginName = props.getProperty("username");
-			loginPwd = props.getProperty("pwd");
-			outboundproxy = props.getProperty("outboundproxy");
+			asteriskIP = props.getProperty("asteriskIP");
+			loginName = props.getProperty("userName");
+			loginPwd = props.getProperty("password");
+			outboundproxy = props.getProperty("outBoundProxy");
+			asteriskPort = Integer.parseInt(props.getProperty("asteriskPort"));
 		}
 		catch (IOException ex)
 		{
